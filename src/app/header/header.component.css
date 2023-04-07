@@ -1,0 +1,16 @@
+.navbar-brand img {
+  margin-right: 5px;
+}
+
+.navbar-nav .nav-link {
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.navbar-nav .active > .nav-link {
+  background-color: transparent;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #007bff;
+}

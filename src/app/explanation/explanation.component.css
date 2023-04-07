@@ -1,0 +1,137 @@
+.month-list,
+.century-list {
+  background-color: #fdfdfd;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px;
+  text-align: center;
+}
+
+.month-list li,
+.century-list li {
+  list-style: none;
+  padding: 5px;
+  font-weight: bold;
+}
+
+.month-list li:nth-child(odd) {
+  background-color: #fff6e5;
+}
+
+.century-list li:nth-child(odd) {
+  background-color: #e9fff9;
+}
+
+#Paso {
+  background-color: #333333;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+.paso {
+  background-color: #e8e8e8;
+  color: #000000;
+}
+
+.ecuacionPag {
+  background-color: #666666;
+  color: #ffffff;
+  text-align: center;
+  padding: 10px;
+  display: inline-block;
+  border-radius: 8px;
+}
+.ecuacionPag--espacio {
+  margin-right: 20px;
+}
+#cuartoPaso {
+  background-color: #ffffcc;
+  padding: 20px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.weekList {
+  margin-top: 20px;
+  background-color: #f9e79f;
+  font-size: 0.8em;
+}
+
+.weekList li {
+  font-size: 20px;
+  color: #ffffff;
+}
+table {
+  border-collapse: collapse;
+  margin: 20px 0;
+  background-color: #fffacd; /* amarillo claro */
+  color: #000;
+  border: 2px solid #000; /* borde negro */
+  font-size: 18px;
+  width: 100%;
+}
+
+th,
+td {
+  border: 1px solid #000; /* bordes de celdas */
+  padding: 10px;
+  text-align: center;
+}
+
+th {
+  background-color: #f0e68c; /* amarillo dorado */
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: #ffffe0; /* amarillo claro alternado en filas pares */
+}
+.ecuacionPag--4 {
+  background-color: #666666;
+  color: black;
+  text-align: center;
+  padding: 10px;
+  display: inline-block;
+  border-radius: 8px;
+}
+.month-table,
+.century-table {
+  background-color: #fafafa;
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.century-table th {
+  background-color: #35a82a;
+  color: #fff;
+}
+.month-table th {
+  background-color: #b84bda;
+  color: #fff;
+}
+.month-table,
+.century-table {
+  background-color: #fafafa;
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+.second-col td:nth-child(2) {
+  color: #b84bda;
+  font-weight: bold;
+}
+
+.cen-col td:nth-child(2) {
+  color: #35a82a;
+  font-weight: bold;
+}
+
+.nmes {
+  color: #b84bda;
+}
+.ncen {
+  color: #35a82a;
+}

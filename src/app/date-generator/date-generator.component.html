@@ -1,0 +1,147 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3 text-center">
+      <form (ngSubmit)="generateRandomDate()" class="d-inline-block">
+        <div class="form-group d-inline-block">
+          <label for="date1" class="random-date">Año inicio:</label>
+          <input
+            type="number"
+            class="form-control input-small"
+            id="date1"
+            name="date1"
+            [(ngModel)]="date1"
+            min="1900"
+            max="2100"
+          />
+        </div>
+        <div class="form-group d-inline-block">
+          <label for="date2" class="random-date">Año fin:</label>
+          <input
+            type="number"
+            class="form-control input-small"
+            id="date2"
+            name="date2"
+            [(ngModel)]="date2"
+            min="1900"
+            max="2100"
+          />
+        </div>
+        <div class="d-inline-block align-middle ml-2">
+          <button type="submit" class="btn btn-primary btn-lg">
+            Generar fecha aleatoria
+          </button>
+        </div>
+      </form>
+
+      <div *ngIf="randomDate" class="random-date">
+        <h2>Fecha aleatoria generada:</h2>
+        <p>{{ formatShortDate(randomDate) }}</p>
+        <p>{{ formatLongDate(randomDate) }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <div class="button-group">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="checkAnswer('Domingo')"
+          [disabled]="!randomDate"
+          [ngClass]="{
+            'btn-success': resultMessage.includes('Correcto'),
+            'btn-danger': resultMessage.includes('Incorrecto')
+          }"
+        >
+          Domingo
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="checkAnswer('Lunes')"
+          [disabled]="!randomDate"
+          [ngClass]="{
+            'btn-success': resultMessage.includes('Correcto'),
+            'btn-danger': resultMessage.includes('Incorrecto')
+          }"
+        >
+          Lunes
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="checkAnswer('Martes')"
+          [disabled]="!randomDate"
+          [ngClass]="{
+            'btn-success': resultMessage.includes('Correcto'),
+            'btn-danger': resultMessage.includes('Incorrecto')
+          }"
+        >
+          Martes
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="checkAnswer('Miércoles')"
+          [disabled]="!randomDate"
+          [ngClass]="{
+            'btn-success': resultMessage.includes('Correcto'),
+            'btn-danger': resultMessage.includes('Incorrecto')
+          }"
+        >
+          Miércoles
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="checkAnswer('Jueves')"
+          [disabled]="!randomDate"
+          [ngClass]="{
+            'btn-success': resultMessage.includes('Correcto'),
+            'btn-danger': resultMessage.includes('Incorrecto')
+          }"
+        >
+          Jueves
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="checkAnswer('Viernes')"
+          [disabled]="!randomDate"
+          [ngClass]="{
+            'btn-success': resultMessage.includes('Correcto'),
+            'btn-danger': resultMessage.includes('Incorrecto')
+          }"
+        >
+          Viernes
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="checkAnswer('Sábado')"
+          [disabled]="!randomDate"
+          [ngClass]="{
+            'btn-success': resultMessage.includes('Correcto'),
+            'btn-danger': resultMessage.includes('Incorrecto')
+          }"
+        >
+          Sábado
+        </button>
+      </div>
+      <br />
+      <br />
+      <div *ngIf="resultMessage" class="random-date">
+        <h3>{{ resultMessage }}</h3>
+      </div>
+    </div>
+    <button type="button" class="btn btn-primary" (click)="toggleProcedure()">
+      Mostrar/ocultar procedimiento
+    </button>
+
+    <app-procedure></app-procedure>
+    <div *ngIf="!showProcedure">
+      <div class="black-square" *ngIf="randomDate"></div>
+    </div>
+  </div>
+</div>

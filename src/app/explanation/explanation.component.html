@@ -1,0 +1,260 @@
+<div class="container mt-5">
+  <ul class="list-unstyled">
+    <li class="mb-5" id="Paso">
+      <h1 class="mb-3">Primer Paso</h1>
+      <h4 class="mb-4">
+        Para comprender los componentes de la fórmula sigue las aclaraciones del
+        <span class="text-warning"> N°Mes </span> y
+        <span class="ncen"> N°Siglo</span>:
+      </h4>
+      <div class="row">
+        <div class="col-md-6">
+          <h3 class="mb-3">Meses</h3>
+          <table class="table month-table second-col">
+            <thead>
+              <tr>
+                <th>Número de mes</th>
+                <th>Número correspondiente</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Enero 1</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>Febrero 2</td>
+                <td>3</td>
+              </tr>
+              <tr>
+                <td>Marzo 3</td>
+                <td>3</td>
+              </tr>
+              <tr>
+                <td>Abril 4</td>
+                <td>6</td>
+              </tr>
+              <tr>
+                <td>Mayo 5</td>
+                <td>1</td>
+              </tr>
+              <tr>
+                <td>Junio 6</td>
+                <td>4</td>
+              </tr>
+              <tr>
+                <td>Julio 7</td>
+                <td>6</td>
+              </tr>
+              <tr>
+                <td>Agosto 8</td>
+                <td>2</td>
+              </tr>
+              <tr>
+                <td>Septiembre 9</td>
+                <td>5</td>
+              </tr>
+              <tr>
+                <td>Octubre 10</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>Noviembre 11</td>
+                <td>3</td>
+              </tr>
+              <tr>
+                <td>Diciembre 12</td>
+                <td>5</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-6">
+          <h3 class="mb-3">Siglos</h3>
+          <table class="table century-table cen-col">
+            <thead>
+              <tr>
+                <th>Siglo</th>
+                <th>Número correspondiente</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1600</td>
+                <td>6</td>
+              </tr>
+              <tr>
+                <td>1700</td>
+                <td>4</td>
+              </tr>
+              <tr>
+                <td>1800</td>
+                <td>2</td>
+              </tr>
+              <tr>
+                <td>1900</td>
+                <td>0</td>
+              </tr>
+              <tr>
+                <td>2000</td>
+                <td>6</td>
+              </tr>
+              <tr>
+                <td>y se repite la secuencia...</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </li>
+    <li class="mb-5" id="Paso">
+      <h1 class="mb-3">Segundo Paso</h1>
+      <h4 class="mb-4">
+        Se comienza planteando la ecuación; cuando se plantea el año en la
+        ecuación principal solo se colocan los últimos
+        <span class="text-primary">2</span> dígitos, si es año bisiesto, y es
+        enero o febrero se resta 1
+      </h4>
+      <h2 class="mb-4 ecuacionPag">
+        <span class="text-danger">X</span> =
+        <span class="text-info">Día</span> + <span class="nmes">N°Mes</span> +
+        <span class="text-primary">Año</span> +
+        <span class="text-primary">Año</span>/4 +
+        <span class="ncen">N°Siglo</span>
+      </h2>
+      <h5>Ej: 17/03/2004</h5>
+      <h2 class="mb-4 ecuacionPag">
+        <span class="text-danger">X</span> = <span class="text-info">17</span> +
+        <span class="nmes">3</span> + <span class="text-primary">04</span> +
+        <span class="text-primary"> </span>/4 +
+        <span class="ncen">6</span>
+      </h2>
+    </li>
+
+    <li class="mb-5" id="Paso">
+      <h1 class="mb-3">Tercer Paso</h1>
+      <h4 class="mb-4">
+        Con la fórmula anterior se sumarán todos los días del año, luego de esto
+        se debe dividir por <span class="text-danger">7</span> y obtener el
+        resto, ese será nuestro número clave.
+      </h4>
+      <div class="ecuacionPag mb-4 ecuacionPag--espacio">
+        <h2>
+          <span class="text-warning">S</span> =
+          <span class="text-danger">X</span> %
+          <span class="text-danger">7</span>
+        </h2>
+      </div>
+      <div class="ecuacionPag mb-4">
+        <h2>
+          <span class="text-warning">S</span> =
+          <span class="text-info">31</span> %
+          <span class="text-danger">7</span> =
+          <span class="text-warning">3</span>
+        </h2>
+      </div>
+    </li>
+
+    <li class="mb-5" id="Paso">
+      <h1 class="mb-3">Cuarto Paso</h1>
+      <h4 class="mb-4">
+        Una vez obtenido el día de la semana, solo queda identificarlo:
+      </h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Día de la semana</th>
+            <th>Número correspondiente</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Domingo</td>
+            <td>0</td>
+          </tr>
+          <tr>
+            <td>Lunes</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td>Martes</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td>Miércoles</td>
+            <td>3</td>
+          </tr>
+          <tr>
+            <td>Jueves</td>
+            <td>4</td>
+          </tr>
+          <tr>
+            <td>Viernes</td>
+            <td>5</td>
+          </tr>
+          <tr>
+            <td>Sábado</td>
+            <td>6</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="ecuacionPag--4 mb-4" style="background-color: #ffffcc">
+        <h2>
+          <span class="text-warning">S</span> =
+          <span class="text-warning">3</span> =
+          <span class="text-warning">Miércoles</span>
+        </h2>
+      </div>
+    </li>
+
+    <li>
+      <div class="recomend mb-5" id="Paso">
+        <h2>
+          Y así se obtiene el día de la semana, a continuación habrá una serie
+          de recomendaciones para poder realizar el cálculo de manera más
+          rápida.
+        </h2>
+        <h4>
+          La primera recomendación es restar los múltiplos de
+          <span class="text-danger">7</span> lo antes posible para no tener que
+          dividir la suma final:
+        </h4>
+        <h2 class="ecuacionPag">
+          <span class="text-warning">S</span> =
+          <span class="text-info">17</span> -
+          <span class="text-danger">14</span> = 3 +
+          <span class="nmes">3</span> = 6 +
+          <span class="text-primary">4</span> = 10 -
+          <span class="text-danger">7</span> = 3 +
+          <span class="text-primary">4</span>/4 = 4 +
+          <span class="ncen">6</span> = 10 -
+          <span class="text-danger">7</span> =
+          <span class="text-warning">3</span> =
+          <span class="text-warning">Miércoles</span>
+        </h2>
+        <h4>
+          La segunda recomendación es tener preparada la suma del año, siglo y
+          el bisiesto:
+        </h4>
+        <h2 class="ecuacionPag">
+          <span class="text-primary">2004</span> =
+          <span class="text-primary">4</span> +
+          <span class="text-primary">4</span>/4 +
+          <span class="text-primary">0</span> =
+          <span class="text-primary">5</span>
+        </h2>
+        <h4>
+          La tercera recomendación es tener siempre presente la tabla de meses y
+          siglos para poder ubicar rápidamente los valores correspondientes a
+          cada uno.
+        </h4>
+        <h4>
+          Finalmente, se recomienda practicar con fechas conocidas para adquirir
+          fluidez en el cálculo.
+        </h4>
+      </div>
+    </li>
+  </ul>
+</div>

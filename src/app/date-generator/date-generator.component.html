@@ -37,12 +37,16 @@
         <h2>Fecha aleatoria generada:</h2>
         <p>{{ formatShortDate(randomDate) }}</p>
         <p>{{ formatLongDate(randomDate) }}</p>
+        <div id="Paso">
+          <p id="step5"></p>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="row">
     <div class="col-md-6 offset-md-3">
+      <!-- Domingo -->
       <div class="button-group">
         <button
           type="button"
@@ -55,7 +59,17 @@
           }"
         >
           Domingo
+          <ng-container *ngIf="showHints && hintsNumbers['Domingo']">
+            <div class="hints">
+              <p *ngFor="let num of hintsNumbers['Domingo']" class="hintNumb">
+                {{ num }}
+              </p>
+            </div>
+          </ng-container>
         </button>
+
+        <!-- Lunes -->
+
         <button
           type="button"
           class="btn btn-primary"
@@ -67,7 +81,17 @@
           }"
         >
           Lunes
+          <ng-container *ngIf="showHints && hintsNumbers['Lunes']">
+            <div class="hints">
+              <p *ngFor="let num of hintsNumbers['Lunes']" class="hintNumb">
+                {{ num }}
+              </p>
+            </div>
+          </ng-container>
         </button>
+
+        <!-- Martes -->
+
         <button
           type="button"
           class="btn btn-primary"
@@ -79,7 +103,17 @@
           }"
         >
           Martes
+          <ng-container *ngIf="showHints && hintsNumbers['Martes']">
+            <div class="hints">
+              <p *ngFor="let num of hintsNumbers['Martes']" class="hintNumb">
+                {{ num }}
+              </p>
+            </div>
+          </ng-container>
         </button>
+
+        <!-- Miércoles -->
+
         <button
           type="button"
           class="btn btn-primary"
@@ -91,7 +125,17 @@
           }"
         >
           Miércoles
+          <ng-container *ngIf="showHints && hintsNumbers['Miércoles']">
+            <div class="hints">
+              <p *ngFor="let num of hintsNumbers['Miércoles']" class="hintNumb">
+                {{ num }}
+              </p>
+            </div>
+          </ng-container>
         </button>
+
+        <!-- Jueves -->
+
         <button
           type="button"
           class="btn btn-primary"
@@ -103,7 +147,17 @@
           }"
         >
           Jueves
+          <ng-container *ngIf="showHints && hintsNumbers['Jueves']">
+            <div class="hints">
+              <p *ngFor="let num of hintsNumbers['Jueves']" class="hintNumb">
+                {{ num }}
+              </p>
+            </div>
+          </ng-container>
         </button>
+
+        <!-- Viernes -->
+
         <button
           type="button"
           class="btn btn-primary"
@@ -115,7 +169,17 @@
           }"
         >
           Viernes
+          <ng-container *ngIf="showHints && hintsNumbers['Viernes']">
+            <div class="hints">
+              <p *ngFor="let num of hintsNumbers['Viernes']" class="hintNumb">
+                {{ num }}
+              </p>
+            </div>
+          </ng-container>
         </button>
+
+        <!-- Sábado -->
+
         <button
           type="button"
           class="btn btn-primary"
@@ -127,14 +191,25 @@
           }"
         >
           Sábado
+          <ng-container *ngIf="showHints && hintsNumbers['Sábado']">
+            <div class="hints">
+              <p *ngFor="let num of hintsNumbers['Sábado']" class="hintNumb">
+                {{ num }}
+              </p>
+            </div>
+          </ng-container>
         </button>
       </div>
+
       <br />
       <br />
       <div *ngIf="resultMessage" class="random-date">
         <h3>{{ resultMessage }}</h3>
       </div>
     </div>
+    <button type="button" class="btn btn-primary" (click)="toggleHints()">
+      Mostrar/ocultar consejos
+    </button>
     <button type="button" class="btn btn-primary" (click)="toggleProcedure()">
       Mostrar/ocultar procedimiento
     </button>

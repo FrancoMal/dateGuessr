@@ -17,6 +17,18 @@ export class DateGeneratorComponent {
   private startTime: number = 0;
   private timer: any;
   showProcedure: boolean = false;
+  showHints: boolean = false;
+  hintsNumbers: { [day: string]: number[] } = {
+    Domingo: [0, 7, 14, 21, 28, 35, 42, 49],
+    Lunes: [1, 8, 15, 22, 29, 36, 43, 50],
+    Martes: [2, 9, 16, 23, 30, 37, 44, 51],
+    Miércoles: [3, 10, 17, 24, 31, 38, 45, 52],
+    Jueves: [4, 11, 18, 25, 32, 39, 46, 53],
+    Viernes: [5, 12, 19, 26, 33, 40, 47, 54],
+    Sábado: [6, 13, 20, 27, 34, 41, 48, 55]
+  };
+  
+  
   constructor(private datePipe: DatePipe) {}
 
   public generateRandomDate(): void {
@@ -86,5 +98,7 @@ export class DateGeneratorComponent {
   toggleProcedure() {
     this.showProcedure = !this.showProcedure;
   }
-  
+  toggleHints() {
+    this.showHints = !this.showHints
+  }
 }

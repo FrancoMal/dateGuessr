@@ -23,12 +23,12 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .button-group button {
-  margin: 10px;
-  flex-basis: calc(33.33% - 20px);
+  margin: 10px; /* Ajusta el margen según tus necesidades */
+  flex-basis: calc(30% - 20px); /* Ajusta el margen según tus necesidades */
 }
 
 .random-date {
@@ -66,4 +66,20 @@
   width: 240px;
   height: 300px;
   background-color: #333333;
+}
+.hints {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Agrega esta propiedad para alinear horizontalmente */
+  flex-direction: row;
+}
+.hintNumb {
+  color: white;
+  font-size: 10px;
+  /* Ajusta el margen para el espaciado entre los números */
+  margin: 1.3px; /* Puedes ajustar el valor según lo necesites */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

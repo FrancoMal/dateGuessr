@@ -1,5 +1,7 @@
 # DateGuessr
 
+https://dateguessr.netlify.app/
+
 ## Introducción
 
 DateGuessr es una aplicación web de juegos que desafía a los usuarios a adivinar el día de la semana de una fecha aleatoria. Los usuarios ingresan un rango de años y la aplicación genera una fecha aleatoria dentro de ese rango. Luego, se muestra un conjunto de botones con los nombres de los días de la semana, y el usuario debe seleccionar el día de la semana que corresponde a la fecha generada. La página cuenta con un tutorial y se puede ver el procedimiento de resolución para ayudar al usuario a mejorar.

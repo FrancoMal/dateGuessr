@@ -59,8 +59,8 @@
         <h2>{{ historicalMode ? 'Fecha histórica:' : 'Fecha aleatoria generada:' }}</h2>
         <p>{{ formatShortDate(randomDate) }}</p>
         <p>{{ formatLongDate(randomDate) }}</p>
-        <div id="Paso">
-          <p id="step5"></p>
+        <div id="Paso" *ngIf="showHints">
+          <p>{{ hintText }}</p>
         </div>
       </div>
 
@@ -74,154 +74,22 @@
 
   <div class="row">
     <div class="col-md-6 offset-md-3">
-      <!-- Domingo -->
       <div class="button-group">
         <button
+          *ngFor="let day of ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado']"
           type="button"
           class="btn btn-primary"
-          (click)="checkAnswer('Domingo')"
-          [disabled]="!randomDate"
+          (click)="checkAnswer(day)"
+          [disabled]="!randomDate || answered"
           [ngClass]="{
-            'btn-success': resultMessage.includes('Correcto'),
-            'btn-danger': resultMessage.includes('Incorrecto')
+            'btn-success': answered && day === correctDay,
+            'btn-danger': answered && day === selectedDay && selectedDay !== correctDay
           }"
         >
-          Domingo
-          <ng-container *ngIf="showHints && hintsNumbers['Domingo']">
+          {{ day }}
+          <ng-container *ngIf="showHints && hintsNumbers[day]">
             <div class="hints">
-              <p *ngFor="let num of hintsNumbers['Domingo']" class="hintNumb">
-                {{ num }}
-              </p>
-            </div>
-          </ng-container>
-        </button>
-
-        <!-- Lunes -->
-
-        <button
-          type="button"
-          class="btn btn-primary"
-          (click)="checkAnswer('Lunes')"
-          [disabled]="!randomDate"
-          [ngClass]="{
-            'btn-success': resultMessage.includes('Correcto'),
-            'btn-danger': resultMessage.includes('Incorrecto')
-          }"
-        >
-          Lunes
-          <ng-container *ngIf="showHints && hintsNumbers['Lunes']">
-            <div class="hints">
-              <p *ngFor="let num of hintsNumbers['Lunes']" class="hintNumb">
-                {{ num }}
-              </p>
-            </div>
-          </ng-container>
-        </button>
-
-        <!-- Martes -->
-
-        <button
-          type="button"
-          class="btn btn-primary"
-          (click)="checkAnswer('Martes')"
-          [disabled]="!randomDate"
-          [ngClass]="{
-            'btn-success': resultMessage.includes('Correcto'),
-            'btn-danger': resultMessage.includes('Incorrecto')
-          }"
-        >
-          Martes
-          <ng-container *ngIf="showHints && hintsNumbers['Martes']">
-            <div class="hints">
-              <p *ngFor="let num of hintsNumbers['Martes']" class="hintNumb">
-                {{ num }}
-              </p>
-            </div>
-          </ng-container>
-        </button>
-
-        <!-- Miércoles -->
-
-        <button
-          type="button"
-          class="btn btn-primary"
-          (click)="checkAnswer('Miércoles')"
-          [disabled]="!randomDate"
-          [ngClass]="{
-            'btn-success': resultMessage.includes('Correcto'),
-            'btn-danger': resultMessage.includes('Incorrecto')
-          }"
-        >
-          Miércoles
-          <ng-container *ngIf="showHints && hintsNumbers['Miércoles']">
-            <div class="hints">
-              <p *ngFor="let num of hintsNumbers['Miércoles']" class="hintNumb">
-                {{ num }}
-              </p>
-            </div>
-          </ng-container>
-        </button>
-
-        <!-- Jueves -->
-
-        <button
-          type="button"
-          class="btn btn-primary"
-          (click)="checkAnswer('Jueves')"
-          [disabled]="!randomDate"
-          [ngClass]="{
-            'btn-success': resultMessage.includes('Correcto'),
-            'btn-danger': resultMessage.includes('Incorrecto')
-          }"
-        >
-          Jueves
-          <ng-container *ngIf="showHints && hintsNumbers['Jueves']">
-            <div class="hints">
-              <p *ngFor="let num of hintsNumbers['Jueves']" class="hintNumb">
-                {{ num }}
-              </p>
-            </div>
-          </ng-container>
-        </button>
-
-        <!-- Viernes -->
-
-        <button
-          type="button"
-          class="btn btn-primary"
-          (click)="checkAnswer('Viernes')"
-          [disabled]="!randomDate"
-          [ngClass]="{
-            'btn-success': resultMessage.includes('Correcto'),
-            'btn-danger': resultMessage.includes('Incorrecto')
-          }"
-        >
-          Viernes
-          <ng-container *ngIf="showHints && hintsNumbers['Viernes']">
-            <div class="hints">
-              <p *ngFor="let num of hintsNumbers['Viernes']" class="hintNumb">
-                {{ num }}
-              </p>
-            </div>
-          </ng-container>
-        </button>
-
-        <!-- Sábado -->
-
-        <button
-          type="button"
-          class="btn btn-primary"
-          (click)="checkAnswer('Sábado')"
-          [disabled]="!randomDate"
-          [ngClass]="{
-            'btn-success': resultMessage.includes('Correcto'),
-            'btn-danger': resultMessage.includes('Incorrecto')
-          }"
-        >
-          Sábado
-          <ng-container *ngIf="showHints && hintsNumbers['Sábado']">
-            <div class="hints">
-              <p *ngFor="let num of hintsNumbers['Sábado']" class="hintNumb">
+              <p *ngFor="let num of hintsNumbers[day]" class="hintNumb">
                 {{ num }}
               </p>
             </div>
@@ -243,9 +111,6 @@
       Mostrar/ocultar procedimiento
     </button>
 
-    <app-procedure></app-procedure>
-    <div *ngIf="!showProcedure">
-      <div class="black-square" *ngIf="randomDate"></div>
-    </div>
+    <app-procedure *ngIf="showProcedure && randomDate" [randomDate]="randomDate"></app-procedure>
   </div>
 </div>

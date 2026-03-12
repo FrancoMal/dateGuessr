@@ -1,6 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { ProcedureComponent } from '../procedure/procedure.component';
 import { HistoricalDatesService } from '../services/historical-dates.service';
 import { HistoricalDate } from '../data/historical-dates';
 import { HistoryService } from '../services/history.service';
@@ -23,6 +22,7 @@ export class DateGeneratorComponent {
   public resultMessage: string = '';
   private startTime: number = 0;
   private timer: any;
+  public answered: boolean = false;
 
   lastPointsEarned: number = 0;
   showProcedure: boolean = false;
@@ -37,11 +37,14 @@ export class DateGeneratorComponent {
     Sábado: [6, 13, 20, 27, 34, 41, 48, 55]
   };
 
+  correctDay: string = '';
+
   // Modo histórico
   historicalMode: boolean = false;
   currentHistoricalDate: HistoricalDate | null = null;
   showEventName: boolean = false;
 
+  hintText: string = '';
   private questionStartTime: number = 0;
 
   constructor(
@@ -52,10 +55,16 @@ export class DateGeneratorComponent {
   ) {}
 
   public generateRandomDate(): void {
+    // Validar rango de años
+    if (!this.historicalMode && this.date1 > this.date2) {
+      [this.date1, this.date2] = [this.date2, this.date1];
+    }
+
     // Reseteamos las variables
     this.selectedDay = '';
     this.resultMessage = '';
     this.elapsedTime = 0;
+    this.answered = false;
     this.showEventName = false;
     this.currentHistoricalDate = null;
 
@@ -75,11 +84,24 @@ export class DateGeneratorComponent {
     this.startTimer();
     this.questionStartTime = Date.now();
 
-    console.log(`Fecha aleatoria generada: ${this.randomDate}`);
-
-    // Llamada a handleGenerateProc del componente ProcedureComponent
-    const procedureComponent = new ProcedureComponent();
-    procedureComponent.handleGenerateProc(this.randomDate!);
+    // Calcular hint rápido para mostrar junto a la fecha
+    if (this.randomDate) {
+      const nuMes = [0, 3, 3, 6, 1, 4, 6, 2, 5, 0, 3, 5];
+      const year = this.randomDate.getFullYear();
+      const day = this.randomDate.getDate();
+      const month = this.randomDate.getMonth() + 1;
+      const last2Dig = year % 100;
+      const century = Math.floor(year / 100);
+      const qua = Math.floor(last2Dig / 4);
+      let leap = 0;
+      if ((year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0)) && ((month === 1) || (month === 2))) {
+        leap = -1;
+      }
+      const hintDay = day % 7;
+      const hintMonth = nuMes[month - 1];
+      const hintYear = (qua + last2Dig + century) % 7;
+      this.hintText = `${hintDay} + ${hintMonth} + ${hintYear} - ${leap}`;
+    }
   }
 
   private startTimer(): void {
@@ -102,9 +124,12 @@ export class DateGeneratorComponent {
   }
 
   public checkAnswer(day: string): void {
-    if (!this.randomDate || !this.startTime) {
+    if (!this.randomDate || !this.startTime || this.answered) {
       return;
     }
+
+    this.selectedDay = day;
+    this.answered = true;
 
     // Obtenemos el día de la semana seleccionado por el usuario
     const selectedDayIndex = this.getDayIndex(day);
@@ -114,10 +139,11 @@ export class DateGeneratorComponent {
 
     // Comparamos los días de la semana
     const daysOfWeek = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+    this.correctDay = daysOfWeek[randomDayIndex];
     if (selectedDayIndex === randomDayIndex) {
       this.resultMessage = `¡Correcto! Tardaste ${this.elapsedTime} segundos.`;
     } else {
-      this.resultMessage = `¡Incorrecto! Tardaste ${this.elapsedTime} segundos. El día correcto era ${daysOfWeek[randomDayIndex]}.`;
+      this.resultMessage = `¡Incorrecto! Tardaste ${this.elapsedTime} segundos. El día correcto era ${this.correctDay}.`;
     }
     this.stopTimer();
 

@@ -83,3 +83,39 @@
   justify-content: center;
   align-items: center;
 }
+
+.historical-toggle {
+  margin: 15px 0;
+}
+.form-check-input {
+  cursor: pointer;
+}
+.form-check-label {
+  font-size: 18px;
+  margin-left: 8px;
+  cursor: pointer;
+}
+.historical-event {
+  margin-top: 15px;
+  padding: 12px 20px;
+  background-color: #2a5d2a;
+  border-radius: 8px;
+  animation: fadeIn 0.5s ease-in;
+}
+.event-name {
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+}
+.event-category {
+  color: #aad4aa;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

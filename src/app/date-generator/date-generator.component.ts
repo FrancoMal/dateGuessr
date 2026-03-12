@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ProcedureComponent } from '../procedure/procedure.component';
+import { HistoricalDatesService } from '../services/historical-dates.service';
+import { HistoricalDate } from '../data/historical-dates';
 
 @Component({
   selector: 'app-date-generator',
@@ -27,20 +29,38 @@ export class DateGeneratorComponent {
     Viernes: [5, 12, 19, 26, 33, 40, 47, 54],
     Sábado: [6, 13, 20, 27, 34, 41, 48, 55]
   };
-  
-  
-  constructor(private datePipe: DatePipe) {}
+
+  // Modo histórico
+  historicalMode: boolean = false;
+  currentHistoricalDate: HistoricalDate | null = null;
+  showEventName: boolean = false;
+
+  constructor(
+    private datePipe: DatePipe,
+    private historicalDatesService: HistoricalDatesService
+  ) {}
 
   public generateRandomDate(): void {
-    const start = new Date(this.date1, 0, 1);
-    const end = new Date(this.date2, 11, 31);
-    const randomTime = start.getTime() + Math.random() * (end.getTime() - start.getTime());
-    this.randomDate = new Date(randomTime);
-
     // Reseteamos las variables
     this.selectedDay = '';
     this.resultMessage = '';
     this.elapsedTime = 0;
+    this.showEventName = false;
+    this.currentHistoricalDate = null;
+
+    if (this.historicalMode) {
+      const historical = this.historicalDatesService.getRandomDate();
+      if (historical) {
+        this.currentHistoricalDate = historical;
+        this.randomDate = new Date(historical.date);
+      }
+    } else {
+      const start = new Date(this.date1, 0, 1);
+      const end = new Date(this.date2, 11, 31);
+      const randomTime = start.getTime() + Math.random() * (end.getTime() - start.getTime());
+      this.randomDate = new Date(randomTime);
+    }
+
     this.startTimer();
 
     console.log(`Fecha aleatoria generada: ${this.randomDate}`);
@@ -89,6 +109,12 @@ export class DateGeneratorComponent {
     }
     this.stopTimer();
     this.startTime = 0;
+
+    // En modo histórico, revelar el evento y marcar como jugado
+    if (this.historicalMode && this.currentHistoricalDate) {
+      this.showEventName = true;
+      this.historicalDatesService.markAsPlayed(this.currentHistoricalDate.id);
+    }
   }
 
   private getDayIndex(day: string): number {
@@ -100,5 +126,13 @@ export class DateGeneratorComponent {
   }
   toggleHints() {
     this.showHints = !this.showHints
+  }
+  toggleHistoricalMode() {
+    this.historicalMode = !this.historicalMode;
+    // Reset game state when switching modes
+    this.randomDate = undefined;
+    this.resultMessage = '';
+    this.showEventName = false;
+    this.currentHistoricalDate = null;
   }
 }

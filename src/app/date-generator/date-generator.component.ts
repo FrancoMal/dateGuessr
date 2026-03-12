@@ -1,8 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ProcedureComponent } from '../procedure/procedure.component';
 import { HistoricalDatesService } from '../services/historical-dates.service';
 import { HistoricalDate } from '../data/historical-dates';
+import { HistoryService } from '../services/history.service';
+import { ScoreService } from '../services/score.service';
+import { ScoreboardComponent } from '../components/scoreboard/scoreboard.component';
 
 @Component({
   selector: 'app-date-generator',
@@ -10,6 +13,8 @@ import { HistoricalDate } from '../data/historical-dates';
   styleUrls: ['./date-generator.component.css'],
 })
 export class DateGeneratorComponent {
+  @ViewChild('scoreboard') scoreboard!: ScoreboardComponent;
+
   public randomDate: Date | undefined;
   public date1: number = 1900;
   public date2: number = 2100;
@@ -18,6 +23,8 @@ export class DateGeneratorComponent {
   public resultMessage: string = '';
   private startTime: number = 0;
   private timer: any;
+
+  lastPointsEarned: number = 0;
   showProcedure: boolean = false;
   showHints: boolean = false;
   hintsNumbers: { [day: string]: number[] } = {
@@ -35,9 +42,13 @@ export class DateGeneratorComponent {
   currentHistoricalDate: HistoricalDate | null = null;
   showEventName: boolean = false;
 
+  private questionStartTime: number = 0;
+
   constructor(
     private datePipe: DatePipe,
-    private historicalDatesService: HistoricalDatesService
+    private historicalDatesService: HistoricalDatesService,
+    private historyService: HistoryService,
+    private scoreService: ScoreService
   ) {}
 
   public generateRandomDate(): void {
@@ -62,6 +73,7 @@ export class DateGeneratorComponent {
     }
 
     this.startTimer();
+    this.questionStartTime = Date.now();
 
     console.log(`Fecha aleatoria generada: ${this.randomDate}`);
 
@@ -101,13 +113,29 @@ export class DateGeneratorComponent {
     const randomDayIndex = this.randomDate.getDay();
 
     // Comparamos los días de la semana
+    const daysOfWeek = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
     if (selectedDayIndex === randomDayIndex) {
       this.resultMessage = `¡Correcto! Tardaste ${this.elapsedTime} segundos.`;
     } else {
-      const daysOfWeek = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
       this.resultMessage = `¡Incorrecto! Tardaste ${this.elapsedTime} segundos. El día correcto era ${daysOfWeek[randomDayIndex]}.`;
     }
     this.stopTimer();
+
+    // Registrar en historial
+    const responseTimeMs = Date.now() - this.questionStartTime;
+    this.historyService.addRecord({
+      date: this.formatShortDate(this.randomDate),
+      userAnswer: day,
+      correctAnswer: daysOfWeek[randomDayIndex],
+      isCorrect: selectedDayIndex === randomDayIndex,
+      responseTimeMs
+    });
+
+    // Actualizar puntuación
+    const result = this.scoreService.registerAnswer(selectedDayIndex === randomDayIndex, responseTimeMs);
+    this.lastPointsEarned = result.pointsEarned;
+    this.scoreboard.refresh();
+
     this.startTime = 0;
 
     // En modo histórico, revelar el evento y marcar como jugado

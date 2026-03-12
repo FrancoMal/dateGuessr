@@ -1,4 +1,7 @@
 <div class="container">
+  <!-- Scoreboard -->
+  <app-scoreboard #scoreboard></app-scoreboard>
+
   <div class="row">
     <div class="col-md-6 offset-md-3 text-center">
 
@@ -230,6 +233,7 @@
       <br />
       <div *ngIf="resultMessage" class="random-date">
         <h3>{{ resultMessage }}</h3>
+        <p *ngIf="lastPointsEarned > 0" class="points-earned">+{{ lastPointsEarned }} puntos</p>
       </div>
     </div>
     <button type="button" class="btn btn-primary" (click)="toggleHints()">

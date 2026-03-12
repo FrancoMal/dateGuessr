@@ -1,0 +1,34 @@
+<div class="scoreboard">
+  <!-- Record banner -->
+  <div *ngIf="showRecordBanner" class="record-banner">
+    &#127942; &#161;Nuevo r&#233;cord de racha: {{ scoreData.bestStreak }}! &#127942;
+  </div>
+
+  <div class="score-items">
+    <div class="score-item">
+      <span class="badge bg-primary">Puntaje</span>
+      <span class="score-value">{{ scoreData.score }}</span>
+    </div>
+    <div class="score-item" [@streakPulse]="scoreData.streak">
+      <span class="badge" [ngClass]="scoreData.streak >= 3 ? 'bg-warning text-dark' : 'bg-secondary'">
+        Racha
+        <span *ngIf="scoreData.streak >= 3">&#128293;</span>
+      </span>
+      <span class="score-value streak" [class.on-fire]="scoreData.streak >= 3">
+        {{ scoreData.streak }}
+      </span>
+    </div>
+    <div class="score-item" [@newRecord]="recordState">
+      <span class="badge bg-success">Mejor racha</span>
+      <span class="score-value">{{ scoreData.bestStreak }}</span>
+    </div>
+    <div class="score-item">
+      <span class="badge bg-info text-dark">Aciertos</span>
+      <span class="score-value">
+        {{ scoreData.totalCorrect }}/{{ scoreData.totalAnswered }}
+        <small *ngIf="scoreData.totalAnswered > 0">({{ accuracyPercent }}%)</small>
+      </span>
+    </div>
+  </div>
+  <button class="btn btn-sm btn-outline-light score-reset" (click)="resetScore()">Reiniciar</button>
+</div>

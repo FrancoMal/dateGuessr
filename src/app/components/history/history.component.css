@@ -1,0 +1,50 @@
+.history-container {
+  padding: 30px 15px;
+  min-height: 80vh;
+}
+
+.stats-section {
+  background-color: #2a2a2a;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.stats-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.badge-stat {
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: white;
+}
+
+.stat-good {
+  background-color: #28a745;
+}
+
+.stat-medium {
+  background-color: #ffc107;
+  color: #333;
+}
+
+.stat-bad {
+  background-color: #dc3545;
+}
+
+.stat-none {
+  background-color: #6c757d;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+}
+
+.table-dark th {
+  border-color: #454d55;
+}

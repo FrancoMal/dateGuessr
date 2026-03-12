@@ -1,137 +1,224 @@
-.month-list,
-.century-list {
-  background-color: #fdfdfd;
-  border-radius: 5px;
-  padding: 10px;
-  margin: 10px;
-  text-align: center;
-}
-
-.month-list li,
-.century-list li {
-  list-style: none;
-  padding: 5px;
-  font-weight: bold;
-}
-
-.month-list li:nth-child(odd) {
-  background-color: #fff6e5;
-}
-
-.century-list li:nth-child(odd) {
-  background-color: #e9fff9;
-}
-
+/* Step cards */
 #Paso {
-  background-color: #333333;
-  color: white;
+  background: rgba(30, 42, 69, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--text-primary, #e8e8e8);
   text-align: center;
-  padding: 20px;
-  border-radius: 5px;
-  margin-bottom: 20px;
-}
-.paso {
-  background-color: #e8e8e8;
-  color: #000000;
+  padding: 28px 24px;
+  border-radius: 14px;
+  margin-bottom: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
-.ecuacionPag {
-  background-color: #666666;
-  color: #ffffff;
-  text-align: center;
-  padding: 10px;
-  display: inline-block;
-  border-radius: 8px;
-}
-.ecuacionPag--espacio {
-  margin-right: 20px;
-}
-#cuartoPaso {
-  background-color: #ffffcc;
-  padding: 20px;
-  border-radius: 5px;
-  margin-bottom: 20px;
+#Paso h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #4a9eff, #b84bda);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 16px;
 }
 
-.weekList {
-  margin-top: 20px;
-  background-color: #f9e79f;
-  font-size: 0.8em;
+#Paso h4 {
+  font-size: 1rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.7;
 }
 
-.weekList li {
-  font-size: 20px;
-  color: #ffffff;
+#Paso h5 {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 500;
 }
+
+/* Tables */
 table {
   border-collapse: collapse;
-  margin: 20px 0;
-  background-color: #fffacd; /* amarillo claro */
-  color: #000;
-  border: 2px solid #000; /* borde negro */
-  font-size: 18px;
+  margin: 16px auto;
+  color: #e8e8e8;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.95rem;
   width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 th,
 td {
-  border: 1px solid #000; /* bordes de celdas */
-  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 10px 14px;
   text-align: center;
 }
 
 th {
-  background-color: #f0e68c; /* amarillo dorado */
-  font-weight: bold;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 tr:nth-child(even) {
-  background-color: #ffffe0; /* amarillo claro alternado en filas pares */
-}
-.ecuacionPag--4 {
-  background-color: #666666;
-  color: black;
-  text-align: center;
-  padding: 10px;
-  display: inline-block;
-  border-radius: 8px;
-}
-.month-table,
-.century-table {
-  background-color: #fafafa;
-  text-align: center;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.03);
 }
 
-.century-table th {
-  background-color: #35a82a;
-  color: #fff;
+tr:hover {
+  background: rgba(255, 255, 255, 0.06);
 }
+
+/* Month table */
 .month-table th {
-  background-color: #b84bda;
+  background: linear-gradient(135deg, #b84bda, #9333ea);
   color: #fff;
 }
-.month-table,
-.century-table {
-  background-color: #fafafa;
-  text-align: center;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+
+.month-table {
+  background: rgba(184, 75, 218, 0.06);
+  border-color: rgba(184, 75, 218, 0.2);
 }
+
+/* Century table */
+.century-table th {
+  background: linear-gradient(135deg, #35a82a, #16a34a);
+  color: #fff;
+}
+
+.century-table {
+  background: rgba(53, 168, 42, 0.06);
+  border-color: rgba(53, 168, 42, 0.2);
+}
+
+/* Colored value columns */
 .second-col td:nth-child(2) {
-  color: #b84bda;
-  font-weight: bold;
+  color: #d8b4fe;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
 }
 
 .cen-col td:nth-child(2) {
-  color: #35a82a;
-  font-weight: bold;
+  color: #86efac;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
 }
 
-.nmes {
-  color: #b84bda;
+/* Equation blocks */
+.ecuacionPag {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  text-align: center;
+  padding: 14px 20px;
+  display: inline-block;
+  border-radius: 10px;
+  font-family: 'JetBrains Mono', monospace;
 }
+
+.ecuacionPag h2 {
+  font-size: 1.15rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.ecuacionPag--espacio {
+  margin-right: 16px;
+}
+
+.ecuacionPag--4 {
+  background: rgba(255, 193, 7, 0.12);
+  border: 1px solid rgba(255, 193, 7, 0.3);
+  color: #fff;
+  text-align: center;
+  padding: 14px 20px;
+  display: inline-block;
+  border-radius: 10px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.ecuacionPag--4 h2 {
+  font-size: 1.15rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Section subtitles */
+#Paso h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Recommendations section */
+.recomend {
+  background: rgba(30, 42, 69, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--text-primary, #e8e8e8);
+  text-align: center;
+  padding: 28px 24px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 193, 7, 0.15);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.recomend h2 {
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.recomend h4 {
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+/* Color helpers */
+.nmes {
+  color: #d8b4fe !important;
+}
+
 .ncen {
-  color: #35a82a;
+  color: #86efac !important;
+}
+
+/* Container override */
+:host .container {
+  max-width: 850px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  #Paso {
+    padding: 20px 16px;
+  }
+
+  .ecuacionPag,
+  .ecuacionPag--4 {
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  .ecuacionPag--espacio {
+    margin-right: 0;
+  }
+
+  .ecuacionPag h2,
+  .ecuacionPag--4 h2 {
+    font-size: 0.95rem;
+  }
+
+  table {
+    font-size: 0.85rem;
+  }
+
+  th, td {
+    padding: 8px 10px;
+  }
 }

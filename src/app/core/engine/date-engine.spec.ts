@@ -206,8 +206,8 @@ describe('date-engine', () => {
   });
 
   describe('registro de drills', () => {
-    it('expone los 5 drills canónicos', () => {
-      for (const id of ['dia', 'mes', 'anio', 'bisiesto', 'mod7']) {
+    it('expone los 6 drills canónicos', () => {
+      for (const id of ['dia', 'mes', 'diames', 'anio', 'bisiesto', 'mod7']) {
         const info = getDrillInfo(id);
         expect(info).withContext(id).toBeDefined();
         expect(info!.nombre.length).toBeGreaterThan(0);
@@ -239,6 +239,37 @@ describe('date-engine', () => {
         expect(q.prompt).toBe(MONTH_NAMES[idx]);
         expect(q.answer).toBe(MONTH_CODES[idx]);
       }
+    });
+  });
+
+  describe('generador drill "diames"', () => {
+    /** Días máximos sin año: febrero fijo en 28. */
+    const MAX_DAYS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+    it('genera día válido para el mes y responde (D′ + M) mod 7 (300 preguntas)', () => {
+      for (let i = 0; i < 300; i++) {
+        const q = generateDrillQuestion('diames');
+        const day = q.meta.day!;
+        const idx = q.meta.monthIndex!;
+        expect(idx).toBeGreaterThanOrEqual(0);
+        expect(idx).toBeLessThanOrEqual(11);
+        expect(day).toBeGreaterThanOrEqual(1);
+        expect(day).withContext(q.prompt).toBeLessThanOrEqual(MAX_DAYS[idx]);
+        expect(q.prompt).toBe(`${day} de ${MONTH_NAMES[idx]}`);
+        expect(q.answerType).toBe('number');
+        expect(q.answer).withContext(q.prompt).toBe(mod7(mod7(day) + MONTH_CODES[idx]));
+        expect(q.answer).toBeGreaterThanOrEqual(0);
+        expect(q.answer).toBeLessThanOrEqual(6);
+        expect(q.breakdown.length).toBe(3);
+        expect(q.breakdown.map(l => l.piece)).toEqual(['dia', 'mes', 'resultado']);
+      }
+    });
+
+    it('resuelve el caso fijo 26 de Junio → 2 con las tablas del motor', () => {
+      // Verificado a mano: D′ = 26 − 21 = 5 · M (Junio) = 4 → 5 + 4 = 9 → 9 − 7 = 2
+      expect(mod7(26)).toBe(5);
+      expect(monthCode(6)).toBe(4);
+      expect(mod7(mod7(26) + monthCode(6))).toBe(2);
     });
   });
 

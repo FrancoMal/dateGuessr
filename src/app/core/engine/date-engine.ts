@@ -3,7 +3,7 @@
  *
  * ÚNICO lugar con la fórmula del día de la semana, las tablas de mes y siglo,
  * la regla de bisiestos, los pasos de cálculo (camino largo Y camino reducido)
- * y los generadores de preguntas de los 5 drills.
+ * y los generadores de preguntas de los 6 drills.
  *
  * Fórmula:
  *   X = D + M + A + Q + C + ajuste
@@ -34,8 +34,12 @@ export const MONTH_CODES: readonly number[] = [0, 3, 3, 6, 1, 4, 6, 2, 5, 0, 3, 
 /** Patrón cíclico de siglos cada 4 siglos desde 1600: 16xx→6, 17xx→4, 18xx→2, 19xx→0, … */
 export const CENTURY_PATTERN: readonly number[] = [6, 4, 2, 0];
 
-/** Pieza semántica de la fórmula (mapea a los colores --c-* de styles.css). */
-export type FormulaPiece = 'dia' | 'mes' | 'anio' | 'siglo' | 'ajuste' | 'resultado' | 'neutro';
+/**
+ * Pieza semántica de la fórmula (mapea a los colores --c-* de styles.css).
+ * `diames` es la combinación D′ + M del drill "Día + Mes".
+ */
+export type FormulaPiece =
+  'dia' | 'mes' | 'diames' | 'anio' | 'siglo' | 'ajuste' | 'resultado' | 'neutro';
 
 // ---------------------------------------------------------------------------
 // Aritmética base
@@ -269,9 +273,9 @@ export function getDateBreakdown(day: number, month: number, year: number): Date
 // Drills — registro y generadores
 // ---------------------------------------------------------------------------
 
-export type DrillId = 'dia' | 'mes' | 'anio' | 'bisiesto' | 'mod7';
+export type DrillId = 'dia' | 'mes' | 'diames' | 'anio' | 'bisiesto' | 'mod7';
 
-export const DRILL_IDS: readonly DrillId[] = ['dia', 'mes', 'anio', 'bisiesto', 'mod7'];
+export const DRILL_IDS: readonly DrillId[] = ['dia', 'mes', 'diames', 'anio', 'bisiesto', 'mod7'];
 
 export interface DrillInfo {
   id: DrillId;
@@ -299,6 +303,14 @@ export const DRILLS: readonly DrillInfo[] = [
     descripcion: 'Memorizá el código 0–6 de cada mes.',
     icono: '🗓️',
     piece: 'mes',
+    answerType: 'number'
+  },
+  {
+    id: 'diames',
+    nombre: 'Día + Mes',
+    descripcion: 'Día reducido más código del mes, juntos: (D′ + M) mod 7, sin mirar el año.',
+    icono: '➕',
+    piece: 'diames',
     answerType: 'number'
   },
   {
@@ -383,6 +395,37 @@ function generateMes(): DrillQuestion {
     answer: code,
     breakdown: [{ piece: 'mes', label: 'M', text: `${MONTH_NAMES[monthIndex]} → código ${code}` }],
     meta: { monthIndex }
+  };
+}
+
+/** Días máximos por mes SIN año: febrero fijo en 28 (sin año no hay 29). */
+const MONTH_MAX_DAYS: readonly number[] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+function generateDiaMes(): DrillQuestion {
+  const monthIndex = randInt(0, 11);
+  const day = randInt(1, MONTH_MAX_DAYS[monthIndex]);
+  const monthName = MONTH_NAMES[monthIndex];
+  const m = MONTH_CODES[monthIndex];
+  const dStep = reduceStep(day);
+  const sumRaw = dStep.reduced + m;
+  const sumStep = reduceStep(sumRaw);
+  return {
+    drill: 'diames',
+    prompt: `${day} de ${monthName}`,
+    detail: '¿Cuánto da D′ + M?',
+    answerType: 'number',
+    answer: sumStep.reduced,
+    breakdown: [
+      { piece: 'dia', label: 'D′', text: `D′ = ${dStep.text}` },
+      { piece: 'mes', label: 'M', text: `M (${monthName}) = ${m}` },
+      {
+        piece: 'resultado',
+        label: 'D′+M',
+        text: `D′ + M = ${dStep.reduced} + ${m} = ${sumRaw}` +
+          (sumStep.multiple > 0 ? ` → ${sumStep.text}` : '')
+      }
+    ],
+    meta: { day, monthIndex }
   };
 }
 
@@ -533,6 +576,7 @@ export function generateDrillQuestion(drill: DrillId, opts?: AnioDrillOptions): 
   switch (drill) {
     case 'dia': return generateDia();
     case 'mes': return generateMes();
+    case 'diames': return generateDiaMes();
     case 'anio': return generateAnio(opts);
     case 'bisiesto': return generateBisiesto();
     case 'mod7': return generateMod7();

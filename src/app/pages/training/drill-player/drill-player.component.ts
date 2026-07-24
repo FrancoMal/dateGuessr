@@ -42,6 +42,11 @@ const HELP_TEXT: Record<string, string[]> = {
     'Cada mes tiene un código fijo de 0 a 6 que hay que memorizar.',
     'Agrupalos para recordarlos: Enero y Octubre valen 0 · Febrero, Marzo y Noviembre valen 3 · Abril y Julio valen 6 · Septiembre y Diciembre valen 5 · Mayo 1, Junio 4, Agosto 2.'
   ],
+  diames: [
+    'Son las dos primeras piezas de la fórmula juntas: el día reducido (D′) más el código del mes (M), sin mirar el año.',
+    'Primero reducí el día restando 28, 21, 14 o 7. Después sumale el código del mes y, si el total llega a 7 o más, restale 7.',
+    'Ejemplo: 26 de Junio → D′ = 26 − 21 = 5 · M (Junio) = 4 → 5 + 4 = 9 → 9 − 7 = 2.'
+  ],
   anio: [
     'El Número del año junta tres piezas: A (últimas 2 cifras del año), Q (los cuartos: A ÷ 4 sin resto) y C (código del siglo).',
     'La clave es reducir cada pieza mod 7 apenas la calculás, para trabajar siempre con números chicos.',
@@ -61,7 +66,7 @@ const HELP_TEXT: Record<string, string[]> = {
 };
 
 /**
- * Player genérico `/entrenar/:id`: juega cualquiera de los 5 drills.
+ * Player genérico `/entrenar/:id`: juega cualquiera de los 6 drills.
  * Enunciado grande, number-pad 0–6 o Sí/No, feedback con desglose del motor,
  * stats de sesión + persistentes y teclado (0–6, S/N, Enter = siguiente).
  */
@@ -162,7 +167,15 @@ export class DrillPlayerComponent implements OnInit, OnDestroy {
     if (!this.drill) {
       return;
     }
-    this.question = generateDrillQuestion(this.drill.id, this.anioOptions());
+    // No repetir el mismo enunciado dos veces seguidas (mismo patrón que el
+    // motor de la app móvil): reintentar con tope de seguridad para rangos
+    // donde solo existe una pregunta posible (ej. anio con min = max).
+    const lastPrompt = this.question?.prompt;
+    let question = generateDrillQuestion(this.drill.id, this.anioOptions());
+    for (let guard = 0; question.prompt === lastPrompt && guard < 20; guard++) {
+      question = generateDrillQuestion(this.drill.id, this.anioOptions());
+    }
+    this.question = question;
     this.phase = 'answering';
     this.selected = null;
     this.questionStart = Date.now();

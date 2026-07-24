@@ -1,0 +1,62 @@
+<section class="page home-page">
+  <div class="hero">
+    <h1 class="hero-title">
+      Aprendé a calcular el día de la semana de cualquier fecha,
+      <span class="hero-accent">de cabeza</span>.
+    </h1>
+    <p class="hero-subtitle">
+      Una fórmula simple, cinco entrenamientos cortos y práctica con fechas reales.
+      Nada de cuentas raras: sumás números chicos y restás los 7 lo antes posible.
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" routerLink="/practica">🎯 Practicar ahora</a>
+      <a class="btn btn-ghost" routerLink="/metodo">Ver el método</a>
+    </div>
+  </div>
+
+  <div class="stats-row" *ngIf="score" aria-label="Tus estadísticas">
+    <app-stat-chip icon="⭐" label="Puntos" [value]="score.score" accent="var(--c-resultado)"></app-stat-chip>
+    <app-stat-chip icon="✔" label="Precisión" [value]="accuracyPercent + '%'" accent="var(--success)"></app-stat-chip>
+    <app-streak-flame [streak]="score.streak" label="Racha"></app-streak-flame>
+  </div>
+
+  <div class="modes-grid">
+    <app-mode-card
+      icon="🎯"
+      title="Práctica completa"
+      description="Fechas al azar o históricas: calculá el día, sumá puntos y mantené la racha."
+      accent="var(--primary)"
+      link="/practica">
+    </app-mode-card>
+
+    <app-mode-card
+      icon="🧩"
+      title="Entrenamiento por partes"
+      description="Cinco drills cortos, uno por cada pieza de la fórmula."
+      accent="var(--c-anio)"
+      link="/entrenar">
+      <span
+        class="drill-badge"
+        *ngFor="let d of drills"
+        [style.--badge-c]="'var(--c-' + d.piece + ')'">
+        <span aria-hidden="true">{{ d.icono }}</span> {{ d.nombre }}
+      </span>
+    </app-mode-card>
+
+    <app-mode-card
+      icon="📖"
+      title="El método"
+      description="La fórmula, las tablas de mes y siglo, y la técnica de restar los 7 temprano."
+      accent="var(--c-mes)"
+      link="/metodo">
+    </app-mode-card>
+
+    <app-mode-card
+      icon="📊"
+      title="Historial"
+      description="Tus partidas, precisión por día de la semana y estadísticas de entrenamiento."
+      accent="var(--c-resultado)"
+      link="/historial">
+    </app-mode-card>
+  </div>
+</section>

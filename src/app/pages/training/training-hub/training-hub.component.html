@@ -1,0 +1,36 @@
+<section class="page">
+  <h1 class="page-title">Entrenar</h1>
+  <p class="page-subtitle">
+    Practicá cada pieza de la fórmula por separado, a tu ritmo. Cinco ejercicios cortos,
+    cada uno entrena un reflejo distinto.
+  </p>
+
+  <div class="drill-grid">
+    <app-mode-card *ngFor="let c of cards"
+                   [icon]="c.info.icono"
+                   [title]="c.info.nombre"
+                   [description]="c.info.descripcion"
+                   [accent]="accent(c.info)"
+                   [link]="['/entrenar', c.info.id]">
+      <ng-container *ngIf="c.stats.attempts > 0; else sinDatos">
+        <span class="drill-chip">🔥 Mejor racha {{ c.stats.bestStreak }}</span>
+        <span class="drill-chip">🎯 {{ c.stats.accuracy }}%</span>
+        <span class="drill-chip">✔ {{ c.stats.correct }}/{{ c.stats.attempts }}</span>
+      </ng-container>
+      <ng-template #sinDatos>
+        <span class="drill-chip muted">Sin intentos todavía</span>
+      </ng-template>
+    </app-mode-card>
+  </div>
+
+  <div class="technique-cta card">
+    <div class="cta-text">
+      <h2>¿Todavía no conocés la técnica?</h2>
+      <p>
+        La clave de todos los ejercicios es la misma: restar los múltiplos de 7 lo antes
+        posible para trabajar siempre con números chicos. Leela antes de entrenar.
+      </p>
+    </div>
+    <a routerLink="/metodo" fragment="tecnica" class="btn btn-primary">La técnica →</a>
+  </div>
+</section>

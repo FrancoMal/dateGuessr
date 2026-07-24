@@ -1,0 +1,110 @@
+<section class="page drill-page" *ngIf="drill; else unknown" [style.--accent]="accentColor">
+  <header class="drill-header">
+    <a routerLink="/entrenar" class="back-link">← Entrenar</a>
+    <h1 class="drill-title">
+      <span aria-hidden="true">{{ drill!.icono }}</span> {{ drill!.nombre }}
+    </h1>
+    <button type="button" class="help-btn" (click)="showHelp = true" aria-label="Ayuda: la técnica de este ejercicio">
+      ?
+    </button>
+  </header>
+
+  <div class="stats-row" aria-label="Estadísticas">
+    <app-streak-flame [streak]="session.streak" label="Racha"></app-streak-flame>
+    <app-stat-chip icon="✔"
+                   label="Sesión"
+                   [value]="session.correct + '/' + session.attempts"
+                   accent="var(--success)"></app-stat-chip>
+    <app-stat-chip icon="⏱"
+                   label="Prom. sesión"
+                   [value]="session.attempts > 0 ? ((sessionAvgMs / 1000 | number:'1.1-1') + ' s') : '—'"
+                   [accent]="accentColor"></app-stat-chip>
+    <app-stat-chip icon="🏆"
+                   label="Mejor racha"
+                   [value]="persisted.bestStreak"
+                   accent="var(--c-siglo)"></app-stat-chip>
+    <app-stat-chip icon="🎯"
+                   label="Precisión total"
+                   [value]="persisted.attempts > 0 ? persisted.accuracy + '%' : '—'"
+                   [accent]="accentColor"></app-stat-chip>
+  </div>
+
+  <div class="question-card card" *ngIf="question">
+    <p class="question-detail">{{ question!.detail }}</p>
+    <p class="question-prompt" [class.prompt-long]="question!.prompt.length > 8">{{ question!.prompt }}</p>
+
+    <label class="range-toggle" *ngIf="drill!.id === 'anio'">
+      <input type="checkbox" [(ngModel)]="allCenturies" (change)="onRangeToggle()">
+      Todos los siglos (1600–2399)
+    </label>
+
+    <app-number-pad [mode]="question!.answerType"
+                    [disabled]="phase === 'feedback'"
+                    [correctValue]="phase === 'feedback' ? question!.answer : null"
+                    [selectedValue]="selected"
+                    (pick)="answer($event)"></app-number-pad>
+
+    <p class="keys-hint" aria-hidden="true">{{ keysHint }}</p>
+
+    <div class="feedback" *ngIf="phase === 'feedback'">
+      <p class="feedback-msg" [class.ok]="isCorrect" [class.fail]="!isCorrect" role="status">
+        <ng-container *ngIf="isCorrect; else wrong">
+          ¡Correcto! Tardaste {{ lastTimeMs / 1000 | number:'1.1-1' }} s.
+        </ng-container>
+        <ng-template #wrong>
+          Incorrecto: era {{ answerLabel(question!.answer) }}. Tardaste {{ lastTimeMs / 1000 | number:'1.1-1' }} s.
+        </ng-template>
+      </p>
+
+      <div class="month-table" *ngIf="drill!.id === 'mes'" role="table" aria-label="Códigos de los meses">
+        <div class="month-cell"
+             *ngFor="let m of monthNames; let i = index"
+             [class.highlight]="i === question!.meta.monthIndex">
+          <span class="month-name">{{ m.slice(0, 3) }}</span>
+          <span class="month-code">{{ monthCodes[i] }}</span>
+        </div>
+      </div>
+
+      <app-breakdown-panel [lines]="question!.breakdown" title="Desglose"></app-breakdown-panel>
+
+      <button type="button" class="btn btn-primary next-btn" (click)="next()">
+        Siguiente <span class="key-tag" aria-hidden="true">Enter</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<ng-template #unknown>
+  <section class="page">
+    <h1 class="page-title">Entrenamiento no encontrado</h1>
+    <p class="page-subtitle">Ese ejercicio no existe. Elegí uno desde el hub.</p>
+    <a routerLink="/entrenar" class="btn btn-primary">← Volver a Entrenar</a>
+  </section>
+</ng-template>
+
+<div class="help-backdrop" *ngIf="showHelp && drill" (click)="showHelp = false">
+  <div class="help-dialog"
+       role="dialog"
+       aria-modal="true"
+       aria-labelledby="helpTitle"
+       (click)="$event.stopPropagation()">
+    <h3 id="helpTitle">
+      <span aria-hidden="true">{{ drill!.icono }}</span> {{ drill!.nombre }} — la técnica
+    </h3>
+    <p class="help-p" *ngFor="let p of helpParagraphs">{{ p }}</p>
+
+    <div class="month-table in-help" *ngIf="drill!.id === 'mes'" role="table" aria-label="Códigos de los meses">
+      <div class="month-cell" *ngFor="let m of monthNames; let i = index">
+        <span class="month-name">{{ m.slice(0, 3) }}</span>
+        <span class="month-code">{{ monthCodes[i] }}</span>
+      </div>
+    </div>
+
+    <div class="help-actions">
+      <a routerLink="/metodo" fragment="tecnica" class="method-link" (click)="showHelp = false">
+        Ver el método completo →
+      </a>
+      <button type="button" class="btn" (click)="showHelp = false">Cerrar</button>
+    </div>
+  </div>
+</div>

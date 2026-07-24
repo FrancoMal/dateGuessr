@@ -1,0 +1,9 @@
+[build]
+  command = "npm run build"
+  publish = "dist/date-guessr"
+
+# Fallback SPA: las rutas profundas (/practica, /entrenar/dia, etc.) sirven index.html
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

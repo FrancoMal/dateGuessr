@@ -1,0 +1,36 @@
+<div class="breakdown" *ngIf="breakdown || (lines && lines.length)">
+  <h3 class="breakdown-title">{{ title }}</h3>
+
+  <!-- Lista simple (drills) -->
+  <ul class="breakdown-list" *ngIf="!breakdown && lines">
+    <li *ngFor="let line of lines" class="breakdown-line" [ngClass]="'piece-' + line.piece">
+      <span class="line-label" *ngIf="line.label">{{ line.label }}</span>
+      <span class="line-text">{{ line.text }}</span>
+    </li>
+  </ul>
+
+  <!-- Ambos caminos (fecha completa) -->
+  <div class="paths" *ngIf="breakdown">
+    <section class="path path-reduced">
+      <h4 class="path-title">
+        Camino reducido <span class="badge-recommended">recomendado</span>
+      </h4>
+      <ul class="breakdown-list">
+        <li *ngFor="let line of breakdown.reduced" class="breakdown-line" [ngClass]="'piece-' + line.piece">
+          <span class="line-label" *ngIf="line.label">{{ line.label }}</span>
+          <span class="line-text">{{ line.text }}</span>
+        </li>
+      </ul>
+    </section>
+
+    <section class="path path-long">
+      <h4 class="path-title">Suma larga</h4>
+      <ul class="breakdown-list">
+        <li *ngFor="let line of breakdown.long" class="breakdown-line" [ngClass]="'piece-' + line.piece">
+          <span class="line-label" *ngIf="line.label">{{ line.label }}</span>
+          <span class="line-text">{{ line.text }}</span>
+        </li>
+      </ul>
+    </section>
+  </div>
+</div>

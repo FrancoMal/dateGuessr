@@ -1,0 +1,55 @@
+.mode-card {
+  --accent: var(--primary);
+  display: block;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  color: var(--text);
+  text-decoration: none;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+a.mode-card:hover,
+a.mode-card:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--accent);
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.card-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.card-description {
+  margin: 10px 0 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.card-extra {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.card-extra:not(:empty) {
+  margin-top: 12px;
+}

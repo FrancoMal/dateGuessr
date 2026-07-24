@@ -1,0 +1,40 @@
+<div class="score-strip">
+  <div class="record-banner" *ngIf="showRecordBanner" role="status">
+    🏆 ¡Nuevo récord de racha: {{ scoreData.bestStreak }}!
+  </div>
+
+  <div class="strip-row">
+    <app-stat-chip icon="⭐" label="Puntaje" [value]="scoreData.score" accent="var(--c-resultado)"></app-stat-chip>
+    <app-streak-flame [streak]="scoreData.streak" label="Racha"></app-streak-flame>
+    <app-stat-chip icon="🏆" label="Mejor racha" [value]="scoreData.bestStreak" accent="var(--c-siglo)"></app-stat-chip>
+    <app-stat-chip
+      icon="✔"
+      label="Aciertos"
+      [value]="scoreData.totalCorrect + '/' + scoreData.totalAnswered + ' (' + accuracyPercent + '%)'"
+      accent="var(--success)">
+    </app-stat-chip>
+
+    <button type="button" class="reset-btn" (click)="openResetDialog()" aria-label="Reiniciar puntaje">
+      Reiniciar
+    </button>
+  </div>
+
+  <div class="reset-dialog-backdrop" *ngIf="showResetDialog" (click)="cancelReset()">
+    <div class="reset-dialog" role="dialog" aria-modal="true" aria-labelledby="resetDialogTitle"
+         (click)="$event.stopPropagation()">
+      <h4 id="resetDialogTitle">¿Reiniciar el puntaje?</h4>
+      <p>Se reinician puntos, racha y aciertos de la sesión. Tu mejor racha se mantiene.</p>
+      <div class="dialog-actions">
+        <button type="button" class="btn-dialog btn-primary-action" (click)="confirmResetSession()">
+          Reiniciar sesión
+        </button>
+        <button type="button" class="btn-dialog btn-danger-action" (click)="confirmResetAll()">
+          Borrar todo (incluye mejor racha)
+        </button>
+        <button type="button" class="btn-dialog btn-cancel-action" (click)="cancelReset()">
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

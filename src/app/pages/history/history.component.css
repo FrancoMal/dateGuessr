@@ -1,0 +1,299 @@
+.summary-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.history-section {
+  margin-bottom: 20px;
+}
+
+.section-title {
+  margin: 0 0 14px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* ---- Aciertos por día ---- */
+.day-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.day-row {
+  display: grid;
+  grid-template-columns: 90px 1fr 110px;
+  align-items: center;
+  gap: 12px;
+}
+
+.day-name {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.day-bar {
+  height: 10px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.day-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width var(--transition-normal);
+}
+
+.day-fill.stat-good { background: var(--success); }
+.day-fill.stat-medium { background: var(--c-resultado); }
+.day-fill.stat-bad { background: var(--error); }
+.day-fill.stat-none { background: transparent; }
+
+.day-value {
+  font-size: 0.82rem;
+  color: var(--text);
+  text-align: right;
+}
+
+.day-value small {
+  color: var(--text-muted);
+}
+
+.day-value.no-data {
+  color: var(--text-muted);
+  font-family: var(--font-main);
+}
+
+@media (max-width: 480px) {
+  .day-row {
+    grid-template-columns: 74px 1fr 92px;
+    gap: 8px;
+  }
+}
+
+/* ---- Stats por drill ---- */
+.drill-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.drill-stat-card {
+  --accent: var(--primary);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.drill-stat-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.drill-stat-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.drill-stat-values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  font-size: 0.8rem;
+  color: var(--text);
+}
+
+.drill-stat-empty {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.empty-hint {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.empty-hint a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.empty-hint a:hover {
+  text-decoration: underline;
+}
+
+/* ---- Tabla de partidas ---- */
+.table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.table-header .section-title {
+  margin: 0;
+}
+
+.table-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.filter-btn.active {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 12%, transparent);
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.history-table th {
+  text-align: left;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.history-table td {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.history-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.history-table tbody tr:hover {
+  background: color-mix(in srgb, var(--primary) 5%, transparent);
+}
+
+.history-table .num {
+  text-align: right;
+}
+
+.history-table .when {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.result-badge {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 2px 10px;
+}
+
+.result-badge.ok {
+  color: var(--success);
+  background: color-mix(in srgb, var(--success) 14%, transparent);
+}
+
+.result-badge.fail {
+  color: var(--error);
+  background: color-mix(in srgb, var(--error) 14%, transparent);
+}
+
+/* ---- Diálogo de confirmación ---- */
+.clear-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 16px;
+}
+
+.clear-dialog {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 22px 24px;
+  max-width: 380px;
+  width: 100%;
+  animation: pop 0.2s ease;
+}
+
+.clear-dialog h4 {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+  color: var(--text);
+}
+
+.clear-dialog p {
+  margin: 0 0 16px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.dialog-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.btn-dialog {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  font-family: var(--font-main);
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: filter var(--transition-fast), background var(--transition-fast);
+}
+
+.btn-dialog:hover {
+  filter: brightness(1.1);
+}
+
+.btn-danger-action {
+  background: transparent;
+  border-color: var(--error);
+  color: var(--error);
+}
+
+.btn-danger-action:hover {
+  background: color-mix(in srgb, var(--error) 12%, transparent);
+}
+
+.btn-cancel-action {
+  background: transparent;
+  color: var(--text-muted);
+}

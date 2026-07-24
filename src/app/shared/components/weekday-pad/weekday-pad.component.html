@@ -1,0 +1,14 @@
+<div class="weekday-pad" role="group" aria-label="Elegí el día de la semana">
+  <button
+    *ngFor="let day of days; let i = index"
+    type="button"
+    class="day-btn"
+    [ngClass]="stateOf(i)"
+    [disabled]="disabled"
+    [attr.aria-label]="day"
+    [attr.aria-pressed]="selectedIndex === i"
+    (click)="pick(i)">
+    <span class="day-name">{{ day }}</span>
+    <kbd class="day-key" *ngIf="showKeys" aria-hidden="true">{{ keys[i] }}</kbd>
+  </button>
+</div>

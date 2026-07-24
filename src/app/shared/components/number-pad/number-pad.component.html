@@ -1,0 +1,13 @@
+<div class="number-pad" role="group" [attr.aria-label]="groupLabel" [class.yesno]="mode === 'yesno'">
+  <button *ngFor="let opt of options"
+          type="button"
+          class="pad-btn"
+          [disabled]="disabled"
+          [class.correct]="correctValue !== null && opt.value === correctValue"
+          [class.incorrect]="correctValue !== null && selectedValue === opt.value && opt.value !== correctValue"
+          [class.selected]="correctValue === null && selectedValue === opt.value"
+          [attr.aria-label]="opt.aria"
+          (click)="onPick(opt.value)">
+    {{ opt.label }}
+  </button>
+</div>

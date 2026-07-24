@@ -1,0 +1,132 @@
+<section class="page practice-page">
+  <h1 class="page-title">Práctica completa</h1>
+  <p class="page-subtitle">Calculá el día de la semana de la fecha. Los puntos premian la velocidad y la racha.</p>
+
+  <app-score-strip></app-score-strip>
+
+  <!-- Configuración -->
+  <div class="card config-card">
+    <div class="config-range" *ngIf="!historicalMode">
+      <div class="range-inputs">
+        <label class="range-label">
+          Desde
+          <input
+            class="year-input"
+            type="number"
+            [min]="YEAR_MIN"
+            [max]="YEAR_MAX"
+            [(ngModel)]="minYear"
+            (change)="clampRange()"
+            aria-label="Año inicial del rango">
+        </label>
+        <label class="range-label">
+          Hasta
+          <input
+            class="year-input"
+            type="number"
+            [min]="YEAR_MIN"
+            [max]="YEAR_MAX"
+            [(ngModel)]="maxYear"
+            (change)="clampRange()"
+            aria-label="Año final del rango">
+        </label>
+      </div>
+      <div class="presets" role="group" aria-label="Rangos rápidos">
+        <button
+          type="button"
+          class="preset-btn"
+          *ngFor="let p of presets"
+          [class.active]="minYear === p.min && maxYear === p.max"
+          (click)="applyPreset(p)">
+          {{ p.label }}
+        </button>
+      </div>
+    </div>
+
+    <p class="historical-note" *ngIf="historicalMode">
+      📜 Fechas de eventos históricos reales. El evento se revela al responder.
+    </p>
+
+    <div class="config-toggles">
+      <label class="switch">
+        <input
+          type="checkbox"
+          [ngModel]="historicalMode"
+          (ngModelChange)="setHistoricalMode($event)">
+        <span class="switch-track" aria-hidden="true"></span>
+        Modo histórico
+      </label>
+      <label class="switch">
+        <input type="checkbox" [(ngModel)]="showHints">
+        <span class="switch-track" aria-hidden="true"></span>
+        Consejos
+      </label>
+    </div>
+  </div>
+
+  <!-- Pregunta -->
+  <div class="card question-card" *ngIf="currentDate; else startCard">
+    <div class="question-top">
+      <span class="timer" *ngIf="!answered">⏱ {{ elapsedMs / 1000 | number:'1.1-1' }} s</span>
+    </div>
+
+    <div class="date-display">
+      <span class="date-short">{{ currentDate | date:'dd/MM/yyyy' }}</span>
+      <span class="date-long">{{ currentDate | date:"d 'de' MMMM 'de' y" }}</span>
+    </div>
+
+    <div class="hint" *ngIf="showHints && breakdown && !answered">
+      <span class="hint-intro">💡 Fórmula reducida:</span>
+      <span class="hint-formula" aria-label="Valores ya reducidos">
+        <span class="h-dia">{{ breakdown.hint.dPrime }}</span> +
+        <span class="h-mes">{{ breakdown.hint.m }}</span> +
+        <span class="h-anio">{{ breakdown.hint.n }}</span><span class="h-ajuste" *ngIf="breakdown.hint.adjust !== 0"> − 1</span>
+      </span>
+      <span class="hint-note">(D′ + M + N{{ breakdown.hint.adjust !== 0 ? ' − 1' : '' }}) — sumá y restá los 7</span>
+    </div>
+
+    <app-weekday-pad
+      [disabled]="answered"
+      [correctIndex]="answered && breakdown ? breakdown.resultIndex : null"
+      [selectedIndex]="selectedIndex"
+      [showKeys]="!answered"
+      (daySelected)="onDaySelected($event)">
+    </app-weekday-pad>
+  </div>
+
+  <ng-template #startCard>
+    <div class="card question-card start-card">
+      <p class="start-text">Generá una fecha y calculá qué día de la semana fue (o va a ser).</p>
+      <button type="button" class="btn btn-primary start-btn" (click)="newDate()">
+        {{ historicalMode ? '📜 Fecha histórica' : '🎲 Generar fecha' }}
+      </button>
+      <p class="keys-hint">También podés apretar <kbd class="kbd">Enter</kbd></p>
+    </div>
+  </ng-template>
+
+  <!-- Feedback -->
+  <div class="feedback-zone" *ngIf="answered && breakdown">
+    <div class="card feedback-card" [class.ok]="isCorrect" [class.bad]="!isCorrect" role="status">
+      <p class="feedback-msg" *ngIf="isCorrect">
+        ✅ ¡Correcto! Era <strong>{{ breakdown.resultName }}</strong>.
+        Tardaste {{ responseTimeMs / 1000 | number:'1.1-1' }} segundos.
+      </p>
+      <p class="feedback-msg" *ngIf="!isCorrect">
+        ❌ ¡Incorrecto! Era <strong>{{ breakdown.resultName }}</strong>.
+        Tardaste {{ responseTimeMs / 1000 | number:'1.1-1' }} segundos.
+      </p>
+      <p class="points-earned" *ngIf="pointsEarned > 0">+{{ pointsEarned }} puntos</p>
+
+      <div class="historical-reveal" *ngIf="historicalEvent">
+        <span class="hist-category">{{ historicalEvent.category }}</span>
+        <p class="hist-event">{{ historicalEvent.event }}</p>
+      </div>
+
+      <button type="button" class="btn btn-primary next-btn" (click)="newDate()">
+        Siguiente fecha → <kbd class="kbd">Enter</kbd>
+      </button>
+    </div>
+
+    <app-breakdown-panel [breakdown]="breakdown" title="Cómo se calcula"></app-breakdown-panel>
+  </div>
+</section>

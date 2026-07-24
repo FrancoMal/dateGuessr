@@ -1,0 +1,123 @@
+.score-strip {
+  position: relative;
+}
+
+.strip-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 10px;
+}
+
+.record-banner {
+  background: linear-gradient(135deg, var(--c-resultado), var(--c-siglo));
+  color: #1c1400;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border-radius: var(--radius-md);
+  padding: 10px 16px;
+  margin-bottom: 12px;
+  text-align: center;
+  animation: pop 0.35s ease;
+}
+
+.reset-btn {
+  margin-left: auto;
+  align-self: center;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text-muted);
+  font-family: var(--font-main);
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 9px 16px;
+  cursor: pointer;
+  transition: color var(--transition-fast), border-color var(--transition-fast),
+    background var(--transition-fast);
+}
+
+.reset-btn:hover,
+.reset-btn:focus-visible {
+  color: var(--error);
+  border-color: var(--error);
+  background: color-mix(in srgb, var(--error) 10%, transparent);
+}
+
+/* Diálogo de confirmación */
+.reset-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 16px;
+}
+
+.reset-dialog {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 22px 24px;
+  max-width: 380px;
+  width: 100%;
+  animation: pop 0.2s ease;
+}
+
+.reset-dialog h4 {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+  color: var(--text);
+}
+
+.reset-dialog p {
+  margin: 0 0 16px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.dialog-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.btn-dialog {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  font-family: var(--font-main);
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: filter var(--transition-fast), background var(--transition-fast);
+}
+
+.btn-dialog:hover {
+  filter: brightness(1.1);
+}
+
+.btn-primary-action {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+
+.btn-danger-action {
+  background: transparent;
+  border-color: var(--error);
+  color: var(--error);
+}
+
+.btn-danger-action:hover {
+  background: color-mix(in srgb, var(--error) 12%, transparent);
+}
+
+.btn-cancel-action {
+  background: transparent;
+  color: var(--text-muted);
+}

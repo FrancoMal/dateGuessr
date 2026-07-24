@@ -11,6 +11,7 @@ import {
   getDrillInfo
 } from '../../../core/engine/date-engine';
 import { DrillStatsService, DrillStatsSummary } from '../../../core/services/drill-stats.service';
+import { safeSetItem } from '../../../core/services/safe-storage';
 
 interface SessionStats {
   attempts: number;
@@ -19,6 +20,17 @@ interface SessionStats {
   bestStreak: number;
   totalTimeMs: number;
 }
+
+interface YearPreset {
+  label: string;
+  min: number;
+  max: number;
+}
+
+/** Rango de años del drill `anio` persistido como JSON {min, max}. */
+const ANIO_RANGE_KEY = 'dg.drills.anio.range';
+const ANIO_DEFAULT_MIN = 1900;
+const ANIO_DEFAULT_MAX = 2099;
 
 const HELP_TEXT: Record<string, string[]> = {
   dia: [
@@ -70,8 +82,17 @@ export class DrillPlayerComponent implements OnInit, OnDestroy {
   lastTimeMs = 0;
   showHelp = false;
 
-  /** Sólo para el drill `anio`: rango extendido 1600–2399. */
-  allCenturies = false;
+  readonly YEAR_MIN = 1600;
+  readonly YEAR_MAX = 2399;
+
+  readonly anioPresets: YearPreset[] = [
+    { label: '1900–2099', min: 1900, max: 2099 },
+    { label: 'Todos (1600–2399)', min: 1600, max: 2399 }
+  ];
+
+  /** Sólo para el drill `anio`: rango de años configurable (persistido). */
+  anioMin = ANIO_DEFAULT_MIN;
+  anioMax = ANIO_DEFAULT_MAX;
 
   session: SessionStats = this.emptySession();
   persisted!: DrillStatsSummary;
@@ -88,7 +109,7 @@ export class DrillPlayerComponent implements OnInit, OnDestroy {
     this.sub = this.route.paramMap.subscribe(params => {
       this.drill = getDrillInfo(params.get('id') ?? '');
       this.session = this.emptySession();
-      this.allCenturies = false;
+      this.loadAnioRange();
       this.showHelp = false;
       if (this.drill) {
         this.persisted = this.drillStats.getSummary(this.drill.id);
@@ -134,7 +155,7 @@ export class DrillPlayerComponent implements OnInit, OnDestroy {
     if (this.drill?.id !== 'anio') {
       return undefined;
     }
-    return this.allCenturies ? { minYear: 1600, maxYear: 2399 } : undefined;
+    return { minYear: this.anioMin, maxYear: this.anioMax };
   }
 
   next(): void {
@@ -174,10 +195,72 @@ export class DrillPlayerComponent implements OnInit, OnDestroy {
     this.persisted = this.drillStats.getSummary(this.drill.id);
   }
 
-  onRangeToggle(): void {
+  /**
+   * Cambio en los inputs Desde/Hasta: normaliza (vacío/NaN → defaults,
+   * clamp a 1600–2399, si desde > hasta se intercambian), persiste y
+   * regenera la pregunta actual si todavía no fue respondida.
+   */
+  onAnioRangeChange(): void {
+    // Input vacío o inválido: ngModel entrega null en runtime → restaurar los
+    // defaults (Number(null) es 0, no NaN, así que hay que detectarlo antes).
+    const rawMin = this.anioMin as number | null;
+    const rawMax = this.anioMax as number | null;
+    let min = rawMin == null ? ANIO_DEFAULT_MIN : Math.floor(Number(rawMin));
+    let max = rawMax == null ? ANIO_DEFAULT_MAX : Math.floor(Number(rawMax));
+    if (!Number.isFinite(min)) {
+      min = ANIO_DEFAULT_MIN;
+    }
+    if (!Number.isFinite(max)) {
+      max = ANIO_DEFAULT_MAX;
+    }
+    min = Math.min(Math.max(min, this.YEAR_MIN), this.YEAR_MAX);
+    max = Math.min(Math.max(max, this.YEAR_MIN), this.YEAR_MAX);
+    if (min > max) {
+      const t = min;
+      min = max;
+      max = t;
+    }
+    this.anioMin = min;
+    this.anioMax = max;
+    this.saveAnioRange();
     if (this.phase === 'answering') {
       this.next();
     }
+  }
+
+  applyAnioPreset(preset: YearPreset): void {
+    this.anioMin = preset.min;
+    this.anioMax = preset.max;
+    this.saveAnioRange();
+    if (this.phase === 'answering') {
+      this.next();
+    }
+  }
+
+  /** Lee el rango persistido; datos corruptos o fuera de rango → defaults silenciosos. */
+  private loadAnioRange(): void {
+    this.anioMin = ANIO_DEFAULT_MIN;
+    this.anioMax = ANIO_DEFAULT_MAX;
+    try {
+      const raw = localStorage.getItem(ANIO_RANGE_KEY);
+      if (!raw) {
+        return;
+      }
+      const parsed = JSON.parse(raw) as { min?: unknown; max?: unknown } | null;
+      const min = Number(parsed?.min);
+      const max = Number(parsed?.max);
+      if (Number.isInteger(min) && Number.isInteger(max)
+        && min >= this.YEAR_MIN && max <= this.YEAR_MAX && min <= max) {
+        this.anioMin = min;
+        this.anioMax = max;
+      }
+    } catch {
+      // datos corruptos → seguir con los defaults
+    }
+  }
+
+  private saveAnioRange(): void {
+    safeSetItem(ANIO_RANGE_KEY, JSON.stringify({ min: this.anioMin, max: this.anioMax }));
   }
 
   answerLabel(value: number): string {
@@ -200,15 +283,10 @@ export class DrillPlayerComponent implements OnInit, OnDestroy {
     }
     const target = event.target as HTMLElement | null;
     const tag = target ? target.tagName : '';
-    const inputType = tag === 'INPUT' ? (target as HTMLInputElement).type : '';
-    const isCheckbox = inputType === 'checkbox' || inputType === 'radio';
-    // Solo la entrada de texto retiene el teclado; el checkbox de rango
-    // enfocado no debe dejar muertos los atajos 0–6 / S/N / Enter.
-    if (tag === 'TEXTAREA' || tag === 'SELECT' || (tag === 'INPUT' && !isCheckbox)) {
-      return;
-    }
-    // Espacio con el checkbox enfocado: dejar que actúe el toggle nativo.
-    if (isCheckbox && event.key === ' ') {
+    // Con el foco en un campo de entrada (los inputs Desde/Hasta del rango,
+    // incluido type=number) el teclado es del campo: tipear dígitos, Espacio
+    // o Enter no debe responder la pregunta ni avanzar.
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') {
       return;
     }
     if (!this.drill || !this.question) {

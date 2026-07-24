@@ -33,10 +33,38 @@
     <p class="question-detail">{{ question!.detail }}</p>
     <p class="question-prompt" [class.prompt-long]="question!.prompt.length > 8">{{ question!.prompt }}</p>
 
-    <label class="range-toggle" *ngIf="drill!.id === 'anio'">
-      <input type="checkbox" [(ngModel)]="allCenturies" (change)="onRangeToggle()">
-      Todos los siglos (1600–2399)
-    </label>
+    <div class="anio-range" *ngIf="drill!.id === 'anio'" role="group" aria-label="Rango de años del ejercicio">
+      <label class="range-label">
+        Desde
+        <input
+          class="year-input"
+          type="number"
+          [min]="YEAR_MIN"
+          [max]="YEAR_MAX"
+          [(ngModel)]="anioMin"
+          (change)="onAnioRangeChange()"
+          aria-label="Año inicial del rango">
+      </label>
+      <label class="range-label">
+        Hasta
+        <input
+          class="year-input"
+          type="number"
+          [min]="YEAR_MIN"
+          [max]="YEAR_MAX"
+          [(ngModel)]="anioMax"
+          (change)="onAnioRangeChange()"
+          aria-label="Año final del rango">
+      </label>
+      <button
+        type="button"
+        class="preset-btn"
+        *ngFor="let p of anioPresets"
+        [class.active]="anioMin === p.min && anioMax === p.max"
+        (click)="applyAnioPreset(p)">
+        {{ p.label }}
+      </button>
+    </div>
 
     <app-number-pad [mode]="question!.answerType"
                     [disabled]="phase === 'feedback'"

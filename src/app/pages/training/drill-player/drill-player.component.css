@@ -83,18 +83,64 @@
   font-size: clamp(1.8rem, 7vw, 3rem);
 }
 
-.range-toggle {
-  display: inline-flex;
+/* ---- Rango de años (drill anio) ---- */
+.anio-range {
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 8px;
-  font-size: 0.85rem;
-  color: var(--text-muted);
+  justify-content: center;
+  gap: 8px 12px;
   margin-bottom: 18px;
-  cursor: pointer;
 }
 
-.range-toggle input {
-  accent-color: var(--accent);
+.range-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.year-input {
+  width: 74px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  padding: 6px 8px;
+  transition: border-color var(--transition-fast);
+}
+
+.year-input:focus {
+  border-color: var(--accent);
+}
+
+.preset-btn {
+  font-family: var(--font-main);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: border-color var(--transition-fast), background var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.preset-btn:hover {
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+.preset-btn.active {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  color: var(--text);
 }
 
 .keys-hint {

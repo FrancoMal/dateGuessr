@@ -253,6 +253,26 @@ describe('date-engine', () => {
       }
     });
 
+    it('respeta un rango configurado (1980–1999) con respuesta recomputable', () => {
+      for (let i = 0; i < 200; i++) {
+        const q = generateDrillQuestion('anio', { minYear: 1980, maxYear: 1999 });
+        const year = q.meta.year!;
+        expect(year).toBeGreaterThanOrEqual(1980);
+        expect(year).toBeLessThanOrEqual(1999);
+        expect(q.prompt).toBe(`${year}`);
+        expect(q.answer).withContext(q.prompt).toBe(yearNumber(year).n);
+      }
+    });
+
+    it('funciona con un rango de un solo año (2000–2000)', () => {
+      for (let i = 0; i < 20; i++) {
+        const q = generateDrillQuestion('anio', { minYear: 2000, maxYear: 2000 });
+        expect(q.meta.year).toBe(2000);
+        expect(q.prompt).toBe('2000');
+        expect(q.answer).toBe(yearNumber(2000).n);
+      }
+    });
+
     it('acepta rango "todos los siglos" 1600–2399', () => {
       let sawOutside1900s = false;
       for (let i = 0; i < 300; i++) {

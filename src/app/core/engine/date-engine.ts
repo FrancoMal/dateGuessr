@@ -347,9 +347,9 @@ export interface DrillQuestion {
 }
 
 export interface AnioDrillOptions {
-  /** Default 1900. Con "todos los siglos": 1600. */
+  /** Default 1900. El rango configurable del drill admite desde 1600. */
   minYear?: number;
-  /** Default 2099. Con "todos los siglos": 2399. */
+  /** Default 2099. El rango configurable del drill admite hasta 2399. */
   maxYear?: number;
 }
 

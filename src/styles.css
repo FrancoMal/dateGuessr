@@ -32,6 +32,7 @@
   --c-siglo: #fb923c;     /* Siglo C: naranja */
   --c-ajuste: #f87171;    /* Ajuste bisiesto: rojo */
   --c-resultado: #fbbf24; /* Resultado S: dorado */
+  --c-diames: #2dd4bf;    /* Drill Día + Mes (D′ + M): teal */
 
   /* Forma y sombra */
   --radius-sm: 8px;
@@ -71,6 +72,7 @@
   --c-siglo: #ea580c;
   --c-ajuste: #dc2626;
   --c-resultado: #b45309;
+  --c-diames: #0d9488;
 
   --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.08);
   --shadow-md: 0 4px 16px rgba(15, 23, 42, 0.1);

@@ -16,9 +16,10 @@ La técnica central que enseña la app: **restar los múltiplos de 7 lo antes po
 ## Modos
 
 - **Práctica completa** (`/practica`): fecha aleatoria por rango de años o fecha histórica real; respondés con los 7 días, con cronómetro, consejo de fórmula reducida opcional y desglose paso a paso al responder (camino largo y camino reducido). Atajos de teclado: `L M X J V S D` y `Enter` para la siguiente.
-- **Entrenamiento por partes** (`/entrenar`): 5 drills individuales, cada uno con desglose, racha y estadísticas propias:
+- **Entrenamiento por partes** (`/entrenar`): 6 drills individuales, cada uno con desglose, racha y estadísticas propias:
   - **Día exprés** — día del mes → mod 7 (`26 − 21 = 5`)
   - **Código del mes** — memorización de la tabla de meses
+  - **Día + Mes** — las dos primeras piezas juntas, sin año: (día mod 7 + código del mes) mod 7
   - **Número del año** — año + año/4 + siglo calculados juntos con reducción temprana
   - **Bisiesto** — ¿se resta 1? (con trampas: año bisiesto pero mes que no aplica, centenarios)
   - **Mod 7 exprés** — la división final, para velocidad

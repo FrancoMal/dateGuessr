@@ -1,0 +1,23 @@
+<a *ngIf="link; else staticCard"
+   class="mode-card"
+   [routerLink]="link"
+   [style.--accent]="accent">
+  <ng-container *ngTemplateOutlet="cardContent"></ng-container>
+</a>
+
+<ng-template #staticCard>
+  <div class="mode-card" [style.--accent]="accent">
+    <ng-container *ngTemplateOutlet="cardContent"></ng-container>
+  </div>
+</ng-template>
+
+<ng-template #cardContent>
+  <div class="card-head">
+    <span class="card-icon" aria-hidden="true">{{ icon }}</span>
+    <h3 class="card-title">{{ title }}</h3>
+  </div>
+  <p class="card-description" *ngIf="description">{{ description }}</p>
+  <div class="card-extra">
+    <ng-content></ng-content>
+  </div>
+</ng-template>

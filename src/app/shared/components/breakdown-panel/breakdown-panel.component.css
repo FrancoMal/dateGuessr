@@ -1,0 +1,114 @@
+.breakdown {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  animation: pop 0.25s ease;
+}
+
+.breakdown-title {
+  margin: 0 0 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.paths {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 720px) {
+  .paths {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.path {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+}
+
+.path-reduced {
+  border-color: var(--primary);
+}
+
+.path-title {
+  margin: 0 0 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.badge-recommended {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--primary-contrast, #fff);
+  background: var(--primary);
+  border-radius: 999px;
+  padding: 2px 10px;
+}
+
+.breakdown-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.breakdown-line {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.line-label {
+  flex: 0 0 auto;
+  min-width: 2.6em;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.line-text {
+  color: var(--text);
+}
+
+/* Colores semánticos por pieza de la fórmula */
+.piece-dia .line-label,
+.piece-dia .line-text { color: var(--c-dia); }
+
+.piece-mes .line-label,
+.piece-mes .line-text { color: var(--c-mes); }
+
+.piece-anio .line-label,
+.piece-anio .line-text { color: var(--c-anio); }
+
+.piece-siglo .line-label,
+.piece-siglo .line-text { color: var(--c-siglo); }
+
+.piece-ajuste .line-label,
+.piece-ajuste .line-text { color: var(--c-ajuste); }
+
+.piece-resultado .line-label,
+.piece-resultado .line-text {
+  color: var(--c-resultado);
+  font-weight: 600;
+}
+
+.piece-neutro .line-label,
+.piece-neutro .line-text { color: var(--text-muted); }

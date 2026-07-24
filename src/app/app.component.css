@@ -1,4 +1,4 @@
-body {
-  background: transparent;
+.app-main {
+  display: block;
+  min-height: calc(100vh - 56px);
 }
-

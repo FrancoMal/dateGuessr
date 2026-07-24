@@ -2,24 +2,40 @@
 
 https://dateguessr.netlify.app/
 
-## Introducción
+Aplicación web para aprender a **calcular mentalmente el día de la semana de cualquier fecha**, con un simulador de práctica y entrenamientos por componente de la fórmula.
 
-DateGuessr es una aplicación web de juegos que desafía a los usuarios a adivinar el día de la semana de una fecha aleatoria. Los usuarios ingresan un rango de años y la aplicación genera una fecha aleatoria dentro de ese rango. Luego, se muestra un conjunto de botones con los nombres de los días de la semana, y el usuario debe seleccionar el día de la semana que corresponde a la fecha generada. La página cuenta con un tutorial y se puede ver el procedimiento de resolución para ayudar al usuario a mejorar.
+## La fórmula
 
-## Características
+```
+X = Día + N°Mes + Año + Año/4 + N°Siglo (− 1 si es bisiesto en enero/febrero)
+S = X mod 7        →  0=Domingo, 1=Lunes, …, 6=Sábado
+```
 
-La aplicación presenta las siguientes características:
+La técnica central que enseña la app: **restar los múltiplos de 7 lo antes posible**. En lugar de sumar todo y dividir al final, cada pieza se reduce mod 7 apenas se conoce (el día, y el "número del año" = año + año/4 + siglo juntos), así los números se mantienen chicos.
 
-- Generación de fecha aleatoria dentro de un rango de años especificado por el usuario.
-- Verificación de la respuesta del usuario y presentación de un mensaje de retroalimentación.
-- Un procedimiento que muestra cómo calcular el día de la semana de una fecha dada.
-- Una capa negra que cubre la pantalla cuando se revela el procedimiento.
-- Responsive design.
+## Modos
 
-## Tecnologías utilizadas
+- **Práctica completa** (`/practica`): fecha aleatoria por rango de años o fecha histórica real; respondés con los 7 días, con cronómetro, consejo de fórmula reducida opcional y desglose paso a paso al responder (camino largo y camino reducido). Atajos de teclado: `L M X J V S D` y `Enter` para la siguiente.
+- **Entrenamiento por partes** (`/entrenar`): 5 drills individuales, cada uno con desglose, racha y estadísticas propias:
+  - **Día exprés** — día del mes → mod 7 (`26 − 21 = 5`)
+  - **Código del mes** — memorización de la tabla de meses
+  - **Número del año** — año + año/4 + siglo calculados juntos con reducción temprana
+  - **Bisiesto** — ¿se resta 1? (con trampas: año bisiesto pero mes que no aplica, centenarios)
+  - **Mod 7 exprés** — la división final, para velocidad
+- **Método** (`/metodo`): la guía completa con tablas, la técnica y un ejemplo interactivo en vivo.
+- **Historial** (`/historial`): partidas, precisión por día de la semana y estadísticas por drill.
 
-La aplicación fue desarrollada utilizando las siguientes tecnologías:
+Todo el progreso se guarda localmente en el navegador (sin cuentas ni backend).
 
-- Angular: un framework de JavaScript para el desarrollo de aplicaciones web.
-- Bootstrap: un framework de CSS para la construcción de sitios web responsivos y móviles.
-- TypeScript: un superset de JavaScript que agrega tipado estático y características adicionales al lenguaje.
+## Desarrollo
+
+```bash
+npm install
+npm start        # ng serve
+npm run build    # producción → dist/date-guessr
+npm test         # tests del motor de cálculo (Karma + ChromeHeadless)
+```
+
+- **Stack**: Angular 15 + TypeScript, sin frameworks de UI (sistema de diseño propio con CSS custom properties, tema oscuro/claro).
+- **Motor único**: toda la lógica de fórmula, tablas, bisiestos, desgloses y generadores de drills vive en `src/app/core/engine/date-engine.ts`, verificada masivamente contra `Date` en los tests.
+- **Deploy**: Netlify construye con `npm run build` y publica `dist/date-guessr` (ver `netlify.toml`); `dist/` ya no se versiona.

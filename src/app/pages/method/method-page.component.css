@@ -1,0 +1,348 @@
+.method-page {
+  max-width: 860px;
+}
+
+.method-section {
+  margin-bottom: 20px;
+}
+
+.section-title {
+  margin: 0 0 14px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.method-section p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.method-section p strong {
+  color: var(--text);
+}
+
+/* ---- Colores semánticos ---- */
+.f-dia { color: var(--c-dia); }
+.f-mes { color: var(--c-mes); }
+.f-anio { color: var(--c-anio); }
+.f-siglo { color: var(--c-siglo); }
+.f-ajuste { color: var(--c-ajuste); }
+.f-resultado { color: var(--c-resultado); }
+
+/* ---- Fórmula ---- */
+.formula-display {
+  font-size: clamp(1rem, 3.4vw, 1.35rem);
+  font-weight: 600;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  text-align: center;
+  line-height: 1.8;
+}
+
+.formula-sep {
+  color: var(--text-muted);
+}
+
+.pieces-legend {
+  list-style: none;
+  margin: 0 0 20px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.piece-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: currentColor;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.table-title {
+  margin: 20px 0 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text);
+}
+
+/* ---- Mapa de días ---- */
+.weekday-map {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.weekday-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--text);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 5px 12px 5px 6px;
+}
+
+.weekday-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--c-resultado) 20%, transparent);
+  color: var(--c-resultado);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* ---- Tabla de meses ---- */
+.month-table {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+}
+
+.month-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 4px;
+}
+
+.month-name {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.month-code {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--c-mes);
+}
+
+/* ---- Tabla de siglos ---- */
+.century-table {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.century-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 4px;
+}
+
+.century-range {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.century-code {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--c-siglo);
+}
+
+.table-note {
+  margin: 10px 0 0;
+  font-size: 0.82rem;
+}
+
+/* ---- Técnica ---- */
+.technique {
+  scroll-margin-top: 80px;
+  border-left: 4px solid var(--primary);
+}
+
+.technique-steps {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.technique-steps .mono {
+  font-weight: 600;
+}
+
+.example-title {
+  margin: 22px 0 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.example-walkthrough {
+  margin: 0 0 18px;
+  padding-left: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+.example-walkthrough .mono strong,
+.example-walkthrough strong {
+  font-weight: 700;
+}
+
+/* ---- Bisiestos ---- */
+.leap-examples {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.leap-chip {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  padding: 10px 14px;
+  color: var(--text);
+}
+
+.leap-chip small {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.leap-chip.yes {
+  border-color: color-mix(in srgb, var(--success) 45%, transparent);
+}
+
+.leap-chip.yes .mono {
+  color: var(--success);
+}
+
+.leap-chip.no {
+  border-color: color-mix(in srgb, var(--c-ajuste) 45%, transparent);
+}
+
+.leap-chip.no .mono {
+  color: var(--c-ajuste);
+}
+
+/* ---- Ejemplo interactivo ---- */
+.section-hint {
+  margin-top: -6px;
+}
+
+.date-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.date-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.field-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+}
+
+.date-field input,
+.date-field select {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  color: var(--text);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  width: 110px;
+  transition: border-color var(--transition-fast);
+}
+
+.date-field select {
+  width: 150px;
+  font-family: var(--font-main);
+}
+
+.date-field input:focus,
+.date-field select:focus {
+  border-color: var(--primary);
+  outline: none;
+}
+
+.live-error {
+  font-size: 0.88rem;
+  color: var(--c-ajuste);
+}
+
+.live-result {
+  font-size: 1.05rem;
+  color: var(--text);
+  margin-bottom: 14px;
+}
+
+.live-result strong {
+  font-weight: 700;
+}
+
+/* ---- CTA final ---- */
+.method-cta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.method-cta p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.method-cta .btn {
+  text-decoration: none;
+}

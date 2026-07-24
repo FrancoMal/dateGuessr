@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ThemeService } from './core/services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -6,7 +7,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  name = 'angular-first';
-
-  
+  // Inyectar el ThemeService acá garantiza que el tema se aplique al arrancar.
+  constructor(private themeService: ThemeService) {}
 }

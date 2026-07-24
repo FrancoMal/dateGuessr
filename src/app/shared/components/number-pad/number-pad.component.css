@@ -1,0 +1,76 @@
+.number-pad {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(40px, 64px));
+  gap: 8px;
+  justify-content: center;
+}
+
+.number-pad.yesno {
+  grid-template-columns: repeat(2, minmax(110px, 150px));
+}
+
+.pad-btn {
+  font-family: var(--font-mono);
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 0;
+  cursor: pointer;
+  transition: border-color var(--transition-fast), background var(--transition-fast),
+    color var(--transition-fast), transform var(--transition-fast);
+}
+
+.yesno .pad-btn {
+  font-family: var(--font-main);
+  font-size: 1.15rem;
+}
+
+.pad-btn:hover:not(:disabled),
+.pad-btn:focus-visible:not(:disabled) {
+  border-color: var(--accent, var(--primary));
+  color: var(--accent, var(--primary));
+}
+
+.pad-btn:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+.pad-btn:disabled {
+  cursor: default;
+  opacity: 0.75;
+}
+
+.pad-btn.selected {
+  border-color: var(--accent, var(--primary));
+}
+
+.pad-btn.correct {
+  background: color-mix(in srgb, var(--success) 22%, transparent);
+  border-color: var(--success);
+  color: var(--success);
+  opacity: 1;
+  animation: pop 0.3s ease;
+}
+
+.pad-btn.incorrect {
+  background: color-mix(in srgb, var(--error) 18%, transparent);
+  border-color: var(--error);
+  color: var(--error);
+  opacity: 1;
+  animation: pop 0.3s ease;
+}
+
+@media (max-width: 480px) {
+  .number-pad {
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+  }
+
+  .pad-btn {
+    font-size: 1.1rem;
+    padding: 12px 0;
+  }
+}

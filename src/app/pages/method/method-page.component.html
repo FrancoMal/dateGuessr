@@ -1,0 +1,172 @@
+<section class="page method-page">
+  <h1 class="page-title">El método</h1>
+  <p class="page-subtitle">
+    Con una fórmula corta y un poco de práctica podés calcular de cabeza el día de la
+    semana de cualquier fecha. Acá está todo: la fórmula, las tablas y la técnica.
+  </p>
+
+  <!-- ============ 1. La fórmula ============ -->
+  <section class="method-section card">
+    <h2 class="section-title">1. La fórmula</h2>
+
+    <p class="formula-display" aria-label="X = D + M + A + Q + C + ajuste; S = X mod 7">
+      <span class="mono">X =</span>
+      <span class="f-dia mono">D</span> <span class="mono">+</span>
+      <span class="f-mes mono">M</span> <span class="mono">+</span>
+      <span class="f-anio mono">A</span> <span class="mono">+</span>
+      <span class="f-anio mono">Q</span> <span class="mono">+</span>
+      <span class="f-siglo mono">C</span> <span class="mono">+</span>
+      <span class="f-ajuste mono">ajuste</span>
+      <span class="formula-sep mono">&nbsp;·&nbsp;</span>
+      <span class="f-resultado mono">S = X mod 7</span>
+    </p>
+
+    <ul class="pieces-legend">
+      <li><span class="piece-dot f-dia"></span><strong class="f-dia">D</strong> — el día del mes (1–31).</li>
+      <li><span class="piece-dot f-mes"></span><strong class="f-mes">M</strong> — el código del mes (tabla de abajo).</li>
+      <li><span class="piece-dot f-anio"></span><strong class="f-anio">A</strong> — las últimas 2 cifras del año (0–99).</li>
+      <li><span class="piece-dot f-anio"></span><strong class="f-anio">Q</strong> — los "cuartos": A ÷ 4, sólo la parte entera.</li>
+      <li><span class="piece-dot f-siglo"></span><strong class="f-siglo">C</strong> — el código del siglo (tabla de abajo).</li>
+      <li><span class="piece-dot f-ajuste"></span><strong class="f-ajuste">ajuste</strong> — restá 1 si el año es bisiesto y el mes es enero o febrero.</li>
+      <li><span class="piece-dot f-resultado"></span><strong class="f-resultado">S</strong> — el resto de dividir X por 7: ese número es el día de la semana.</li>
+    </ul>
+
+    <h3 class="table-title">El resultado S</h3>
+    <div class="weekday-map">
+      <span class="weekday-chip" *ngFor="let d of weekdays; let i = index">
+        <span class="weekday-num mono">{{ i }}</span> {{ d }}
+      </span>
+    </div>
+
+    <h3 class="table-title f-mes">Códigos de mes</h3>
+    <div class="month-table" role="table" aria-label="Códigos de los meses">
+      <div class="month-cell" *ngFor="let m of monthNames; let i = index">
+        <span class="month-name">{{ m.slice(0, 3) }}</span>
+        <span class="month-code mono">{{ monthCodes[i] }}</span>
+      </div>
+    </div>
+
+    <h3 class="table-title f-siglo">Códigos de siglo</h3>
+    <div class="century-table" role="table" aria-label="Códigos de los siglos">
+      <div class="century-cell" *ngFor="let row of centuryRows">
+        <span class="century-range mono">{{ row.range }}</span>
+        <span class="century-code mono">{{ row.code }}</span>
+      </div>
+    </div>
+    <p class="table-note">
+      El patrón <span class="mono">6–4–2–0</span> se repite cada 4 siglos, también hacia
+      atrás: 1500s→0, 1400s→2.
+    </p>
+  </section>
+
+  <!-- ============ 2. La técnica (#tecnica) ============ -->
+  <section class="method-section card technique" id="tecnica">
+    <h2 class="section-title">2. La técnica: restá los 7 lo antes posible</h2>
+    <p>
+      Sumar todo y dividir al final funciona, pero te obliga a arrastrar números grandes.
+      El truco que hace el cálculo mental fácil es <strong>restar los múltiplos de 7
+      apenas aparecen</strong>: como todo se mira mod 7, restar 7, 14, 21 o 28 no cambia
+      el resultado y te deja siempre números chicos.
+    </p>
+    <ul class="technique-steps">
+      <li>
+        <span class="f-dia mono">D′ = D mod 7</span> — al día restale 28, 21, 14 o 7.
+        Por ejemplo, el 26 pasa a ser <span class="mono">26 − 21 = 5</span>.
+      </li>
+      <li>
+        <span class="f-anio mono">N = (A + Q + C) mod 7</span> — el
+        <strong>Número del año</strong>: año, cuartos y siglo se calculan juntos como una
+        sola pieza, reduciendo cada parte apenas la conocés.
+      </li>
+      <li>
+        <span class="f-resultado mono">S = (D′ + M + N + ajuste) mod 7</span> — la misma
+        fórmula, pero con números que nunca pasan de una suma corta.
+      </li>
+    </ul>
+
+    <h3 class="example-title">Ejemplo guía: 20/07/1969 (la llegada a la Luna)</h3>
+    <ol class="example-walkthrough">
+      <li><span class="f-dia">D = 20</span> → <span class="mono">20 − 14 = <strong>6</strong></span></li>
+      <li><span class="f-mes">M (Julio) = <strong>6</strong></span></li>
+      <li><span class="f-anio">A = 69</span> → <span class="mono">69 − 63 = <strong>6</strong></span></li>
+      <li><span class="f-anio">Q = 69÷4 = 17</span> → <span class="mono">17 − 14 = <strong>3</strong></span></li>
+      <li><span class="f-siglo">C (19xx) = <strong>0</strong></span></li>
+      <li><span class="f-anio">N = 6 + 3 + 0 = 9</span> → <span class="mono">9 − 7 = <strong>2</strong></span></li>
+      <li><span class="f-resultado">S = 6 + 6 + 2 = 14 → 14 − 14 = <strong>0</strong> → Domingo</span></li>
+    </ol>
+
+    <app-breakdown-panel [breakdown]="exampleBreakdown"
+                         title="El mismo ejemplo, por los dos caminos"></app-breakdown-panel>
+  </section>
+
+  <!-- ============ 3. El ajuste bisiesto ============ -->
+  <section class="method-section card">
+    <h2 class="section-title">3. El ajuste bisiesto</h2>
+    <p>
+      Hay que restar <span class="f-ajuste mono">1</span> sólo cuando se cumplen
+      <strong>las dos</strong> condiciones a la vez: el año es bisiesto <strong>y</strong>
+      el mes es enero o febrero. De marzo en adelante, aunque el año sea bisiesto, no se
+      ajusta nada.
+    </p>
+    <p>
+      Un año es bisiesto si es divisible por 4, salvo los divisibles por 100 que no lo
+      sean por 400.
+    </p>
+    <div class="leap-examples">
+      <div class="leap-chip yes">
+        <span class="mono">2024</span> bisiesto <small>divisible por 4</small>
+      </div>
+      <div class="leap-chip yes">
+        <span class="mono">2000</span> bisiesto <small>divisible por 400</small>
+      </div>
+      <div class="leap-chip no">
+        <span class="mono">1900</span> NO bisiesto <small>divisible por 100 pero no por 400</small>
+      </div>
+      <div class="leap-chip no">
+        <span class="mono">Julio 2024</span> sin ajuste <small>bisiesto, pero no es enero ni febrero</small>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 4. Ejemplo interactivo ============ -->
+  <section class="method-section card">
+    <h2 class="section-title">4. Probalo con cualquier fecha</h2>
+    <p class="section-hint">Elegí una fecha y mirá el desglose en vivo, por los dos caminos.</p>
+
+    <form class="date-form" (submit)="$event.preventDefault()">
+      <label class="date-field">
+        <span class="field-label">Día</span>
+        <input type="number" name="dia" min="1" max="31"
+               [(ngModel)]="day" (ngModelChange)="recompute()">
+      </label>
+      <label class="date-field">
+        <span class="field-label">Mes</span>
+        <select name="mes" [(ngModel)]="month" (ngModelChange)="recompute()">
+          <option *ngFor="let m of monthNames; let i = index" [ngValue]="i + 1">{{ m }}</option>
+        </select>
+      </label>
+      <label class="date-field">
+        <span class="field-label">Año</span>
+        <input type="number" name="anio" [min]="minYear" [max]="maxYear"
+               [(ngModel)]="year" (ngModelChange)="recompute()">
+      </label>
+    </form>
+
+    <p class="live-error" *ngIf="liveError" role="status">{{ liveError }}</p>
+
+    <ng-container *ngIf="liveBreakdown">
+      <p class="live-result" role="status">
+        El {{ liveBreakdown.day }} de {{ monthNames[liveBreakdown.month - 1] }} de
+        {{ liveBreakdown.year }} →
+        <strong class="f-resultado">{{ liveBreakdown.resultName }}</strong>
+      </p>
+      <app-breakdown-panel [breakdown]="liveBreakdown" title="Desglose en vivo"></app-breakdown-panel>
+    </ng-container>
+  </section>
+
+  <div class="method-cta">
+    <p>¿Listo para automatizarlo?</p>
+    <a routerLink="/entrenar" class="btn btn-primary">Entrenar por partes →</a>
+    <a routerLink="/practica" class="btn">Práctica completa</a>
+  </div>
+</section>

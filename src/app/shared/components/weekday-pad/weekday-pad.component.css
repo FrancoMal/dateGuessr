@@ -1,0 +1,89 @@
+.weekday-pad {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+@media (min-width: 560px) {
+  .weekday-pad {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 960px) {
+  .weekday-pad {
+    grid-template-columns: repeat(7, 1fr);
+  }
+}
+
+.day-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 10px;
+  font-family: var(--font-main);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: border-color var(--transition-fast), background var(--transition-fast),
+    color var(--transition-fast), transform var(--transition-fast),
+    opacity var(--transition-fast);
+}
+
+.day-btn:hover:not(:disabled) {
+  border-color: var(--primary);
+  transform: translateY(-1px);
+}
+
+.day-btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.day-btn:disabled {
+  cursor: default;
+}
+
+/* Al resolverse, los días que no son ni el correcto ni el elegido se atenúan */
+.day-btn:disabled.normal {
+  opacity: 0.4;
+}
+
+.day-btn.correct {
+  background: color-mix(in srgb, var(--success) 18%, var(--surface-2));
+  border-color: var(--success);
+  color: var(--success);
+  animation: pop 0.35s ease;
+}
+
+.day-btn.incorrect {
+  background: color-mix(in srgb, var(--error) 18%, var(--surface-2));
+  border-color: var(--error);
+  color: var(--error);
+  animation: pop 0.35s ease;
+}
+
+/* Tecla de atajo: solo visible en desktop con mouse */
+.day-key {
+  display: none;
+}
+
+@media (min-width: 700px) and (hover: hover) {
+  .day-key {
+    display: inline-block;
+    position: absolute;
+    top: 5px;
+    right: 7px;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    line-height: 1.4;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0 4px;
+  }
+}

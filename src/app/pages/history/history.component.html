@@ -1,0 +1,154 @@
+<section class="page history-page">
+  <h1 class="page-title">Historial</h1>
+  <p class="page-subtitle">Tus partidas de práctica completa y tu progreso en los entrenamientos.</p>
+
+  <!-- Resumen general -->
+  <div class="summary-row" aria-label="Resumen general">
+    <app-stat-chip icon="🎮" label="Partidas" [value]="totalGames"></app-stat-chip>
+    <app-stat-chip icon="🎯"
+                   label="Precisión"
+                   [value]="totalGames > 0 ? accuracy + '%' : '—'"
+                   accent="var(--success)"></app-stat-chip>
+    <app-stat-chip icon="⏱"
+                   label="Tiempo medio"
+                   [value]="totalGames > 0 ? ((avgTimeMs / 1000 | number:'1.1-1') + ' s') : '—'"
+                   accent="var(--c-dia)"></app-stat-chip>
+    <app-stat-chip icon="🏆"
+                   label="Mejor racha"
+                   [value]="bestStreak"
+                   accent="var(--c-siglo)"></app-stat-chip>
+  </div>
+
+  <!-- Aciertos por día de la semana -->
+  <section class="card history-section" *ngIf="totalGames > 0">
+    <h2 class="section-title">Aciertos por día de la semana</h2>
+    <div class="day-stats">
+      <div class="day-row" *ngFor="let s of stats">
+        <span class="day-name">{{ s.day }}</span>
+        <div class="day-bar" [attr.aria-label]="s.day + ': ' + (s.percentage === -1 ? 'sin datos' : s.percentage + '% de aciertos')">
+          <div class="day-fill"
+               [ngClass]="barClass(s)"
+               [style.width.%]="s.percentage < 0 ? 0 : s.percentage"></div>
+        </div>
+        <span class="day-value mono" [class.no-data]="s.percentage === -1">
+          {{ s.percentage === -1 ? 'Sin datos' : s.percentage + '%' }}
+          <small *ngIf="s.total > 0">({{ s.total }})</small>
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats por drill -->
+  <section class="card history-section">
+    <h2 class="section-title">Entrenamientos</h2>
+    <div class="drill-stats-grid" *ngIf="hasDrillData; else sinDrills">
+      <div class="drill-stat-card" *ngFor="let row of drillRows" [style.--accent]="accent(row.info)">
+        <div class="drill-stat-head">
+          <span aria-hidden="true">{{ row.info.icono }}</span>
+          <span class="drill-stat-name">{{ row.info.nombre }}</span>
+        </div>
+        <ng-container *ngIf="row.stats.attempts > 0; else drillVacio">
+          <div class="drill-stat-values mono">
+            <span title="Precisión">🎯 {{ row.stats.accuracy }}%</span>
+            <span title="Mejor racha">🔥 {{ row.stats.bestStreak }}</span>
+            <span title="Aciertos">✔ {{ row.stats.correct }}/{{ row.stats.attempts }}</span>
+            <span title="Tiempo promedio">⏱ {{ row.stats.avgTimeMs / 1000 | number:'1.1-1' }} s</span>
+          </div>
+        </ng-container>
+        <ng-template #drillVacio>
+          <span class="drill-stat-empty">Sin intentos todavía</span>
+        </ng-template>
+      </div>
+    </div>
+    <ng-template #sinDrills>
+      <p class="empty-hint">
+        Todavía no entrenaste ninguna pieza.
+        <a routerLink="/entrenar">Empezá por acá →</a>
+      </p>
+    </ng-template>
+  </section>
+
+  <!-- Partidas -->
+  <section class="card history-section">
+    <div class="table-header">
+      <h2 class="section-title">Partidas</h2>
+      <div class="table-controls">
+        <button type="button"
+                class="btn filter-btn"
+                [class.active]="onlyErrors"
+                (click)="toggleFilter()"
+                [attr.aria-pressed]="onlyErrors">
+          Solo errores
+        </button>
+        <button type="button"
+                class="btn btn-danger"
+                (click)="openClearDialog()"
+                *ngIf="totalGames > 0">
+          Borrar historial
+        </button>
+      </div>
+    </div>
+
+    <div class="table-scroll" *ngIf="displayRecords.length > 0; else noRecords">
+      <table class="history-table">
+        <thead>
+          <tr>
+            <th>Cuándo</th>
+            <th>Fecha</th>
+            <th>Tu respuesta</th>
+            <th>Correcta</th>
+            <th>Resultado</th>
+            <th class="num">Tiempo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let r of displayRecords">
+            <td class="mono when">{{ r.timestamp | date:'dd/MM/yy HH:mm' }}</td>
+            <td class="mono">{{ r.date }}</td>
+            <td>{{ r.userAnswer }}</td>
+            <td>{{ r.correctAnswer }}</td>
+            <td>
+              <span class="result-badge" [ngClass]="r.isCorrect ? 'ok' : 'fail'">
+                {{ r.isCorrect ? '✓ Correcto' : '✗ Incorrecto' }}
+              </span>
+            </td>
+            <td class="mono num">{{ r.responseTimeMs / 1000 | number:'1.1-1' }} s</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ng-template #noRecords>
+      <p class="empty-hint" *ngIf="totalGames === 0">
+        No hay registros todavía.
+        <a routerLink="/practica">¡Jugá para empezar a registrar tu historial! →</a>
+      </p>
+      <p class="empty-hint" *ngIf="totalGames > 0 && onlyErrors">
+        Sin errores registrados. ¡Bien ahí!
+      </p>
+    </ng-template>
+  </section>
+</section>
+
+<!-- Confirmación de borrado -->
+<div class="clear-backdrop" *ngIf="showClearDialog" (click)="cancelClear()">
+  <div class="clear-dialog"
+       role="dialog"
+       aria-modal="true"
+       aria-labelledby="clearDialogTitle"
+       (click)="$event.stopPropagation()">
+    <h4 id="clearDialogTitle">¿Borrar el historial?</h4>
+    <p>
+      Se eliminan las {{ totalGames }} partidas registradas. Esta acción no se puede
+      deshacer. Tu puntaje y tus stats de entrenamiento no se tocan.
+    </p>
+    <div class="dialog-actions">
+      <button type="button" class="btn-dialog btn-danger-action" (click)="confirmClear()">
+        Borrar historial
+      </button>
+      <button type="button" class="btn-dialog btn-cancel-action" (click)="cancelClear()">
+        Cancelar
+      </button>
+    </div>
+  </div>
+</div>

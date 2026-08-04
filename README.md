@@ -15,7 +15,7 @@ La técnica central que enseña la app: **restar los múltiplos de 7 lo antes po
 
 ## Modos
 
-- **Práctica completa** (`/practica`): fecha aleatoria por rango de años o fecha histórica real; respondés con los 7 días, con cronómetro, consejo de fórmula reducida opcional y desglose paso a paso al responder (camino largo y camino reducido). Atajos de teclado: `L M X J V S D` y `Enter` para la siguiente.
+- **Práctica completa** (`/practica`): fecha aleatoria por rango de años o fecha histórica real; respondés con los 7 días, con cronómetro, consejo de fórmula reducida opcional (apagado por defecto) y desglose paso a paso al responder (camino largo y camino reducido). Atajos de teclado: `D L M X J V S` o `0 1 2 3 4 5 6` (domingo a sábado), y `Enter` para la siguiente.
 - **Entrenamiento por partes** (`/entrenar`): 6 drills individuales, cada uno con desglose, racha y estadísticas propias:
   - **Día exprés** — día del mes → mod 7 (`26 − 21 = 5`)
   - **Código del mes** — memorización de la tabla de meses

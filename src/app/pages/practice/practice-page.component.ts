@@ -13,6 +13,9 @@ interface YearPreset {
   max: number;
 }
 
+const DEFAULT_MIN_YEAR = 2000;
+const DEFAULT_MAX_YEAR = Math.min(new Date().getFullYear(), 2399);
+
 /**
  * Práctica completa `/practica`:
  * fecha aleatoria por rango (o histórica), cronómetro, consejo con la fórmula
@@ -30,7 +33,7 @@ export class PracticePageComponent implements OnDestroy {
 
   readonly presets: YearPreset[] = [
     { label: '1900–2000', min: 1900, max: 2000 },
-    { label: '2000–2100', min: 2000, max: 2100 },
+    { label: `2000–${DEFAULT_MAX_YEAR}`, min: DEFAULT_MIN_YEAR, max: DEFAULT_MAX_YEAR },
     { label: 'Todos (1600–2399)', min: 1600, max: 2399 }
   ];
 
@@ -41,8 +44,8 @@ export class PracticePageComponent implements OnDestroy {
   };
 
   // --- Configuración ---
-  minYear = 1900;
-  maxYear = 2100;
+  minYear = DEFAULT_MIN_YEAR;
+  maxYear = DEFAULT_MAX_YEAR;
   historicalMode = false;
   showHints = false;
 
@@ -88,13 +91,13 @@ export class PracticePageComponent implements OnDestroy {
     // defaults (Number(null) es 0, no NaN, así que hay que detectarlo antes).
     const rawMin = this.minYear as number | null;
     const rawMax = this.maxYear as number | null;
-    let min = rawMin == null ? 1900 : Math.floor(Number(rawMin));
-    let max = rawMax == null ? 2100 : Math.floor(Number(rawMax));
+    let min = rawMin == null ? DEFAULT_MIN_YEAR : Math.floor(Number(rawMin));
+    let max = rawMax == null ? DEFAULT_MAX_YEAR : Math.floor(Number(rawMax));
     if (!Number.isFinite(min)) {
-      min = 1900;
+      min = DEFAULT_MIN_YEAR;
     }
     if (!Number.isFinite(max)) {
-      max = 2100;
+      max = DEFAULT_MAX_YEAR;
     }
     min = Math.min(Math.max(min, this.YEAR_MIN), this.YEAR_MAX);
     max = Math.min(Math.max(max, this.YEAR_MIN), this.YEAR_MAX);

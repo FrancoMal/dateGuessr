@@ -14,7 +14,7 @@ import { WEEKDAY_NAMES } from '../../../core/engine/date-engine';
 export class WeekdayPadComponent {
   readonly days: readonly string[] = WEEKDAY_NAMES;
   /** Teclas de atajo, en el mismo orden que WEEKDAY_NAMES (0=Domingo … 6=Sábado). */
-  readonly keys: readonly string[] = ['D', 'L', 'M', 'X', 'J', 'V', 'S'];
+  readonly keys: readonly string[] = ['D / 0', 'L / 1', 'M / 2', 'X / 3', 'J / 4', 'V / 5', 'S / 6'];
 
   /** Deshabilita toda la botonera (tras responder). */
   @Input() disabled = false;

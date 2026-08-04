@@ -36,14 +36,15 @@ export class PracticePageComponent implements OnDestroy {
 
   /** Atajos de teclado → índice de día (0=Domingo … 6=Sábado). */
   private readonly keyToDay: Record<string, number> = {
-    D: 0, L: 1, M: 2, X: 3, J: 4, V: 5, S: 6
+    D: 0, L: 1, M: 2, X: 3, J: 4, V: 5, S: 6,
+    '0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6
   };
 
   // --- Configuración ---
   minYear = 1900;
   maxYear = 2100;
   historicalMode = false;
-  showHints = true;
+  showHints = false;
 
   // --- Estado de la pregunta ---
   currentDate: Date | null = null;
